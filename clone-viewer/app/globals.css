@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+/* Hide the frozen cookie consent popup */
+#onetrust-consent-sdk,
+#onetrust-pc-sdk,
+#onetrust-banner-sdk {
+  display: none !important;
+}

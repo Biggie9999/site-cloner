@@ -1,0 +1,557 @@
+:root {
+    --bg-color: #000000;
+    --card-bg: #1B1B1B;
+    --text-primary: #FFFFFF;
+    --text-secondary: #999999;
+    --accent-purple: #7569A2;
+    --accent-green: #00C019;
+    --accent-red: #FF5252;
+    --nav-bg: rgba(0, 0, 0, 0.95);
+    
+    --font-main: 'Inter', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: #000000;
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 400px; /* Mobile width constraint */
+    background-color: var(--bg-color);
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100vh;
+    padding-bottom: 90px; /* Space for bottom nav */
+}
+
+/* Top Navigation */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 13.7px 8px;
+}
+
+.profile-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.profile-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #2C2C2C;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-pills {
+    display: flex;
+    gap: 10px;
+    margin-left: 8px;
+}
+
+.nav-pill {
+    background-color: #242424;
+    border: none;
+    color: #909090;
+    padding: 10px 18px;
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: var(--font-main);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.nav-pill.active {
+    background-color: var(--accent-purple);
+    color: #121212;
+}
+
+.account-selector {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+    cursor: pointer;
+}
+
+.account-name {
+    font-size: 16px;
+    font-weight: 500;
+    color: #EDEEEE;
+}
+
+/* Main Balance */
+.main-balance {
+    padding: 0 13.7px 16px;
+}
+
+.balance-amount {
+    font-size: 48px;
+    font-weight: 600;
+    letter-spacing: -2px;
+    line-height: 1.1;
+    color: #EDEEEE;
+}
+
+.balance-change {
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.change-amount {
+    color: var(--accent-green);
+    font-weight: 600;
+}
+
+.change-amount.negative-change {
+    color: var(--accent-red);
+}
+
+.change-percent {
+    background-color: var(--accent-green);
+    color: #000;
+    padding: 3px 8px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.change-percent.negative-change {
+    background-color: var(--accent-red);
+}
+
+/* Action Buttons Removed for new UI Layout */
+
+/* Cash Balance Card */
+.cash-card {
+    background-color: var(--card-bg);
+    margin: 0 13.7px 20px;
+    border-radius: 16px;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Tokens Section */
+.tokens-section {
+    padding: 0 13.7px;
+}
+
+.section-header h3 {
+    font-size: 22px;
+    color: #EDEEEE;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 16px;
+}
+
+.section-header i {
+    font-size: 18px;
+    color: var(--text-secondary);
+}
+
+.token-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.token-item {
+    background-color: var(--card-bg);
+    border-radius: 20px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.token-item:hover {
+    background-color: #252525;
+}
+
+.token-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    margin-right: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.token-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.token-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.token-name-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.token-name {
+    font-size: 17px;
+    font-weight: 600;
+    color: #EDEEEE;
+}
+
+.verified {
+    color: var(--accent-purple);
+    font-size: 16px;
+}
+
+.token-amount {
+    font-size: 14px;
+    color: #EDEEEE;
+    font-weight: 400;
+}
+
+.token-value {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.fiat-value {
+    font-size: 17px;
+    font-weight: 500;
+    color: #EDEEEE;
+}
+
+.fiat-change {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.positive { color: var(--accent-green); }
+.negative { color: var(--accent-red); }
+.neutral { color: var(--text-secondary); }
+
+/* Bottom Floating Navigation */
+.bottom-floating-nav {
+    position: fixed;
+    bottom: 24px;
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
+    z-index: 100;
+}
+
+.search-bar {
+    background-color: #242424;
+    border-radius: 24px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 12px;
+    flex: 1;
+    margin-right: 12px;
+    cursor: pointer;
+}
+
+.search-bar i {
+    font-size: 20px;
+    color: #909090;
+}
+
+.add-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: var(--accent-purple);
+    color: #000;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.add-btn:active {
+    transform: scale(0.95);
+}
+
+/* Scrollbar styling for desktop view */
+.app-container::-webkit-scrollbar {
+    width: 6px;
+}
+.app-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+.app-container::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+}
+
+/* Edit Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal-content {
+    background-color: var(--card-bg);
+    width: 100%;
+    max-width: 400px;
+    height: 85vh;
+    border-radius: 20px 20px 0 0;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.hidden .modal-content,
+.modal-overlay.hidden .action-menu-content,
+.modal-overlay.hidden .full-screen-container {
+    transform: translateY(100%);
+}
+
+.modal-header {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.modal-header h2 {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.modal-body {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.form-group {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+.form-group input {
+    background-color: #000;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text-primary);
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-family: var(--font-main);
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+    border-color: var(--accent-purple);
+}
+
+#edit-form h3 {
+    margin: 24px 0 16px;
+    font-size: 16px;
+}
+
+.token-edit-row {
+    background-color: #000;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(255,255,255,0.05);
+    position: relative;
+}
+
+.token-edit-row .remove-token-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    color: var(--accent-red);
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.action-btn-small {
+    background-color: rgba(255,255,255,0.05);
+    color: var(--text-primary);
+    border: none;
+    border-radius: 10px;
+    padding: 10px 0;
+    width: 100%;
+    font-weight: 400;
+    cursor: pointer;
+    margin-bottom: 24px;
+    transition: background-color 0.2s;
+}
+
+.action-btn-small:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+.save-btn {
+    background-color: var(--accent-purple);
+    color: #000;
+    border: none;
+    border-radius: 12px;
+    padding: 16px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: opacity 0.2s;
+}
+
+.save-btn:hover {
+    opacity: 0.9;
+}
+
+/* Token Details & Trading Overlays */
+.token-details-container, .trading-container {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+}
+
+.td-actions button, .td-timeframes button, .trade-quick-percents button, .trade-keypad button {
+    cursor: pointer;
+    transition: transform 0.1s, opacity 0.2s;
+}
+
+.td-actions button:active, .td-timeframes button:active, .trade-quick-percents button:active, .trade-keypad button:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+}
+
+.trade-keypad button {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 28px;
+    font-weight: 500;
+    font-family: var(--font-main);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 64px;
+}
+
+.trade-confirm {
+    transition: background-color 0.2s, opacity 0.2s;
+}
+
+.trade-confirm.enabled {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    cursor: pointer;
+}
+
+/* New UI Flow Styles */
+.action-menu-content {
+    width: 100%;
+    transform: translateY(0);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.full-screen-container {
+    background-color: var(--bg-color);
+    width: 100%;
+    height: 100%;
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+}
+
+.custom-keypad button {
+    background: #333;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    font-weight: 500;
+    font-family: var(--font-main);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 56px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.1s;
+}
+.custom-keypad button:active {
+    background: #444;
+}
+.custom-keypad button span {
+    font-size: 10px;
+    color: #999;
+    margin-top: 2px;
+    letter-spacing: 2px;
+}

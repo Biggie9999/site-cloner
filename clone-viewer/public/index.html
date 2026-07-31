@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Phantom Wallet UI Clone</title>
+    
+    <!-- PWA Settings -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0E0E0E">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Phantom">
+    <link rel="apple-touch-icon" href="logo.png">
+    
+    <link rel="stylesheet" href="styles.css">
+    <!-- Using Phosphor Icons for a clean, modern look -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        
+        <!-- Top Navigation -->
+        <header class="top-bar">
+            <div class="profile-section">
+                <div class="profile-icon">
+                    <span style="font-size: 26px;">🔥</span>
+                </div>
+                <div class="nav-pills">
+                    <button class="nav-pill active">Home</button>
+                    <button class="nav-pill">Trade</button>
+                    <button class="nav-pill" id="explore-btn">Explore</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Account Info & Main Balance -->
+        <section class="main-balance">
+            <div class="account-selector">
+                <span class="account-name">Account 1</span>
+                <i class="ph ph-caret-down" style="color: #909090; font-size: 14px; margin-left: 4px;"></i>
+            </div>
+            <h2 class="balance-amount">$2,140,301.18</h2>
+            <div class="balance-change">
+                <span class="change-amount">+$238.057</span>
+                <span class="change-percent">+0.01%</span>
+            </div>
+        </section>
+
+        <!-- Cash Balance Card -->
+        <section class="cash-card">
+            <div class="cash-info" style="display: flex; flex-direction: row; align-items: center; gap: 12px;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" style="width: 20px; height: 20px; min-width: 20px;" fill="#909090">
+                    <rect width="256" height="256" fill="none"/>
+                    <path d="M168,128a40,40,0,1,1-40-40A40,40,0,0,1,168,128Zm80-64V192a8,8,0,0,1-8,8H16a8,8,0,0,1-8-8V64a8,8,0,0,1,8-8H240A8,8,0,0,1,248,64Zm-16,46.35A56.78,56.78,0,0,1,193.65,72H62.35A56.78,56.78,0,0,1,24,110.35v35.3A56.78,56.78,0,0,1,62.35,184h131.3A56.78,56.78,0,0,1,232,145.65Z"/>
+                </svg>
+                <span class="cash-label" style="font-size: 17px; color: #EDEEEE;">Cash</span>
+            </div>
+            <span class="cash-amount" style="font-size: 17px; font-weight: 400;">$0.00</span>
+        </section>
+
+        <!-- Tokens Section -->
+        <section class="tokens-section">
+            <div class="section-header">
+                <h3>Tokens <i class="ph-bold ph-caret-right"></i></h3>
+            </div>
+            <div class="token-list">
+                <!-- USDC -->
+                <div class="token-item">
+                    <div class="token-icon usdc">
+                        <img src="https://cryptologos.cc/logos/usd-coin-usdc-logo.svg?v=029" alt="USDC">
+                    </div>
+                    <div class="token-details">
+                        <div class="token-name-row">
+                            <span class="token-name">USDC</span>
+                            <i class="ph-fill ph-check-circle verified"></i>
+                        </div>
+                        <span class="token-amount">2,140,300.20 USDC</span>
+                    </div>
+                    <div class="token-value">
+                        <span class="fiat-value">$2,140,300.20</span>
+                        <span class="fiat-change positive">+$238.05</span>
+                    </div>
+                </div>
+
+                <!-- Solana -->
+                <div class="token-item">
+                    <div class="token-icon solana">
+                        <img src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png" alt="Solana">
+                    </div>
+                    <div class="token-details">
+                        <div class="token-name-row">
+                            <span class="token-name">Solana</span>
+                            <i class="ph-fill ph-check-circle verified"></i>
+                        </div>
+                        <span class="token-amount">0.01212 SOL</span>
+                    </div>
+                    <div class="token-value">
+                        <span class="fiat-value">$0.98</span>
+                        <span class="fiat-change positive">+$0.01</span>
+                    </div>
+                </div>
+
+                <!-- Ethereum -->
+                <div class="token-item">
+                    <div class="token-icon ethereum">
+                        <img src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png" alt="Ethereum">
+                    </div>
+                    <div class="token-details">
+                        <div class="token-name-row">
+                            <span class="token-name">Ethereum</span>
+                            <i class="ph-fill ph-check-circle verified"></i>
+                        </div>
+                        <span class="token-amount">0 ETH</span>
+                    </div>
+                    <div class="token-value">
+                        <span class="fiat-value">$0.00</span>
+                        <span class="fiat-change neutral">$0.00</span>
+                    </div>
+                </div>
+                
+                <!-- Bitcoin -->
+                <div class="token-item">
+                    <div class="token-icon bitcoin">
+                        <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.svg?v=029" alt="Bitcoin">
+                    </div>
+                    <div class="token-details">
+                        <div class="token-name-row">
+                            <span class="token-name">Bitcoin</span>
+                            <i class="ph-fill ph-check-circle verified"></i>
+                        </div>
+                        <span class="token-amount">0 BTC</span>
+                    </div>
+                    <div class="token-value">
+                        <span class="fiat-value">$0.00</span>
+                        <span class="fiat-change neutral">$0.00</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-floating-nav">
+            <div class="search-bar">
+                <i class="ph ph-magnifying-glass"></i>
+                <span style="color: #666; font-size: 15px;">Search Phantom</span>
+            </div>
+            <button class="add-btn"><i class="ph ph-plus"></i></button>
+        </nav>
+
+        <!-- Edit Modal Overlay -->
+        <div id="edit-modal" class="modal-overlay hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Edit Wallet Data</h2>
+                    <button id="close-modal-btn" class="icon-btn"><i class="ph-bold ph-x"></i></button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-form">
+                        <div class="form-group">
+                            <label>Account Handle</label>
+                            <input type="text" id="edit-handle" name="handle" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Account Name</label>
+                            <input type="text" id="edit-account-name" name="accountName" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Change Amount</label>
+                            <input type="text" id="edit-change-amount" name="changeAmount" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Cash Balance</label>
+                            <input type="text" id="edit-cash-amount" name="cashAmount" required>
+                        </div>
+
+                        <div class="import-section" style="background-color: rgba(255,255,255,0.02); padding: 16px; border-radius: 12px; margin-bottom: 24px; border: 1px solid rgba(255,255,255,0.05);">
+                            <h3 style="margin-top: 0;">Import via DexScreener</h3>
+                            <div style="display: flex; gap: 8px; flex-direction: column;">
+                                <input type="text" id="dexscreener-address" placeholder="Token Contract Address" style="width: 100%; background-color: #000; border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); padding: 12px 16px; border-radius: 12px; font-size: 14px; font-family: var(--font-main); outline: none;">
+                                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                    <input type="number" id="entry-investment" placeholder="Entry Invest ($)" style="flex: 1; min-width: 120px; background-color: #000; border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); padding: 12px 16px; border-radius: 12px; font-size: 14px; font-family: var(--font-main); outline: none;">
+                                    <input type="number" id="entry-mcap" placeholder="Entry MCAP ($)" style="flex: 1; min-width: 120px; background-color: #000; border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); padding: 12px 16px; border-radius: 12px; font-size: 14px; font-family: var(--font-main); outline: none;">
+                                </div>
+                                <button type="button" id="fetch-token-btn" class="action-btn-small" style="margin-bottom: 0; width: 100%; padding: 12px 16px; background-color: var(--accent-purple); color: #000;">Fetch</button>
+                            </div>
+                            <p id="fetch-status" style="font-size: 12px; color: var(--accent-purple); margin-top: 8px; display: none;">Fetching token info...</p>
+                        </div>
+
+                        <h3>Tokens</h3>
+                        <div id="edit-tokens-list">
+                            <!-- Token edit rows will be generated here -->
+                        </div>
+                        <button type="button" id="add-token-btn" class="action-btn-small">+ Add Token</button>
+
+                        <button type="submit" class="save-btn">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    
+        <!-- Token Details Overlay -->
+        <div id="token-details-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); z-index: 200;">
+            <div class="token-details-container" style="display: flex; flex-direction: column; height: 100%; width: 100%; padding: 16px;">
+                <div class="td-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <button class="icon-btn td-back-btn" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-caret-left"></i></button>
+                    <div class="td-title" style="display: flex; align-items: center; gap: 8px;">
+                        <img src="" id="td-logo" alt="" style="width: 24px; height: 24px; border-radius: 50%;">
+                        <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                            <span style="font-weight: 600; font-size: 16px; display: flex; align-items: center; gap: 4px; color: #fff;" id="td-name">Solana <i class="ph-fill ph-seal-check" style="color: var(--accent-purple);"></i></span>
+                            <span style="font-size: 12px; color: #4CAF50; font-weight: 500;" id="td-people"><span style="display:inline-block; width:6px; height:6px; background-color:#4CAF50; border-radius:50%; margin-right:4px;"></span>329 people here</span>
+                        </div>
+                    </div>
+                    <button class="icon-btn td-options-btn" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-faders"></i></button>
+                </div>
+                
+                <div class="td-price-section" style="margin-bottom: 24px;">
+                    <h1 id="td-price" style="font-size: 48px; font-weight: 700; letter-spacing: -1px; margin-bottom: 8px;">$0.00</h1>
+                    <div class="td-change" id="td-change" style="font-size: 14px; font-weight: 600; display: flex; gap: 8px;"><span style="color: var(--accent-green);">+$0.00</span> <span style="background: var(--accent-green); color: #000; padding: 2px 6px; border-radius: 6px;">+0.00%</span></div>
+                </div>
+
+                <div class="td-chart" style="flex: 1; min-height: 150px; margin-bottom: 24px; position: relative;">
+                    <svg viewBox="0 0 400 150" preserveAspectRatio="none" style="width: 100%; height: 100%;"><path d="M0 120 Q 20 80, 50 100 T 100 40 T 150 90 T 200 60 T 250 110 T 300 20 T 350 50 T 400 30" fill="none" stroke="var(--accent-green)" stroke-width="3" stroke-linejoin="round"/></svg>
+                </div>
+
+                <div class="td-timeframes" style="display: flex; justify-content: space-between; margin-bottom: 24px; padding: 0 16px;">
+                    <button style="background: none; border: none; color: #666; font-weight: 600; font-size: 13px;">1H</button>
+                    <button style="background: rgba(255,255,255,0.1); border: none; color: #fff; font-weight: 600; font-size: 13px; padding: 6px 12px; border-radius: 12px;">1D</button>
+                    <button style="background: none; border: none; color: #666; font-weight: 600; font-size: 13px;">1W</button>
+                    <button style="background: none; border: none; color: #666; font-weight: 600; font-size: 13px;">1M</button>
+                    <button style="background: none; border: none; color: #666; font-weight: 600; font-size: 13px;">YTD</button>
+                    <button style="background: none; border: none; color: #666; font-weight: 600; font-size: 13px;">ALL</button>
+                </div>
+
+                <div class="td-actions" style="display: flex; gap: 12px; justify-content: space-between; margin-bottom: 24px;">
+                    <button style="flex: 1; background: rgba(255,255,255,0.05); border: none; color: #ccc; padding: 12px 0; border-radius: 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; font-weight: 500; font-size: 13px;"><i class="ph ph-paper-plane-tilt" style="font-size: 20px;"></i> Send</button>
+                    <button style="flex: 1; background: rgba(255,255,255,0.05); border: none; color: #ccc; padding: 12px 0; border-radius: 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; font-weight: 500; font-size: 13px;"><i class="ph ph-trend-up" style="font-size: 20px;"></i> Long</button>
+                    <button style="flex: 1; background: rgba(255,255,255,0.05); border: none; color: #ccc; padding: 12px 0; border-radius: 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; font-weight: 500; font-size: 13px;"><i class="ph ph-trend-down" style="font-size: 20px;"></i> Short</button>
+                    <button style="flex: 1; background: rgba(255,255,255,0.05); border: none; color: #ccc; padding: 12px 0; border-radius: 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; font-weight: 500; font-size: 13px;"><i class="ph ph-dots-three" style="font-size: 20px;"></i> More</button>
+                </div>
+
+                <div class="td-position" style="margin-bottom: 24px;">
+                    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center;">Position <i class="ph-bold ph-caret-right" style="color: #666; margin-left: 4px;"></i></h3>
+                    <div style="display: flex; gap: 12px;">
+                        <div style="flex: 1; background: rgba(255,255,255,0.05); padding: 16px; border-radius: 16px;">
+                            <div style="color: #666; font-size: 13px; margin-bottom: 4px;">Value</div>
+                            <div style="color: #fff; font-size: 18px; font-weight: 600;" id="td-pos-value">$0.00</div>
+                        </div>
+                        <div style="flex: 1; background: rgba(255,255,255,0.05); padding: 16px; border-radius: 16px;">
+                            <div style="color: #666; font-size: 13px; margin-bottom: 4px;">Balance</div>
+                            <div style="color: #909090; font-size: 16px; font-weight: 600;" id="td-pos-balance">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="td-trade-buttons" style="display: flex; gap: 12px;">
+                    <button id="td-buy-btn" style="flex: 1; background: var(--accent-purple); color: #000; border: none; padding: 16px; border-radius: 24px; font-size: 16px; font-weight: 600; font-family: var(--font-main);">Buy</button>
+                    <button id="td-sell-btn" style="flex: 1; background: var(--accent-purple); color: #000; border: none; padding: 16px; border-radius: 24px; font-size: 16px; font-weight: 600; font-family: var(--font-main);">Sell</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trading Overlay (Buy/Sell) -->
+        <div id="trading-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); z-index: 300;">
+            <div class="trading-container" style="display: flex; flex-direction: column; height: 100%; width: 100%; padding: 16px;">
+                <div class="trade-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 48px;">
+                    <button class="icon-btn trade-back-btn" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-caret-left"></i></button>
+                    <div class="trade-title" style="display: flex; align-items: center; gap: 8px;">
+                        <img src="" id="trade-logo" alt="" style="width: 24px; height: 24px; border-radius: 50%;">
+                        <span id="trade-action-title" style="font-weight: 600; font-size: 16px; color: #fff;">Sell SOL <i class="ph-fill ph-seal-check" style="color: var(--accent-purple);"></i></span>
+                    </div>
+                    <button class="icon-btn trade-options-btn" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-faders"></i></button>
+                </div>
+                
+                <div class="trade-amount-section" style="display: flex; flex-direction: column; align-items: center; margin-bottom: 48px;">
+                    <h1 id="trade-input-display" style="font-size: 72px; font-weight: 600; letter-spacing: -2px; margin-bottom: 8px; color: #fff;">$0</h1>
+                    <span id="trade-available" style="color: #909090; font-size: 14px;">$0.00 available</span>
+                </div>
+
+                <div class="trade-receive-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <div class="trade-receive-left" style="display: flex; align-items: center; gap: 8px;">
+                        <div class="trade-coin-icon" style="width: 24px; height: 24px; background: #252525; border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i class="ph-fill ph-money" style="color: var(--accent-purple);"></i></div>
+                        <span id="trade-receive-label" style="color: #fff; font-size: 15px; font-weight: 600;">Receive Cash <i class="ph-bold ph-caret-down" style="color: #666;"></i></span>
+                    </div>
+                    <span id="trade-receive-amount" style="color: #909090; font-size: 15px;">$0.00 <i class="ph-bold ph-arrows-down-up" style="color: #666;"></i></span>
+                </div>
+
+                <div class="trade-quick-percents" style="display: flex; gap: 12px; margin-bottom: 24px;">
+                    <button class="pct-btn" data-pct="0.25" style="flex: 1; background: rgba(255,255,255,0.05); border: none; color: #ccc; padding: 14px 0; border-radius: 20px; font-weight: 600; font-size: 14px;">25%</button>
+                    <button class="pct-btn" data-pct="0.50" style="flex: 1; background: rgba(255,255,255,0.05); border: none; color: #ccc; padding: 14px 0; border-radius: 20px; font-weight: 600; font-size: 14px;">50%</button>
+                    <button class="pct-btn" data-pct="1.0" style="flex: 1; background: rgba(255,255,255,0.05); border: none; color: #ccc; padding: 14px 0; border-radius: 20px; font-weight: 600; font-size: 14px;">Sell all</button>
+                </div>
+
+                <div class="trade-keypad" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; flex: 1;">
+                    <!-- Keypad buttons -->
+                </div>
+                
+                <button id="trade-confirm-btn" class="trade-confirm" style="width: 100%; background: var(--accent-purple); color: #000; border: none; padding: 18px; border-radius: 24px; font-size: 16px; font-weight: 600; font-family: var(--font-main); margin-bottom: 16px; opacity: 0.5; pointer-events: none;">Review Order</button>
+            </div>
+        </div>
+        <!-- ACTION MENU MODAL -->
+        <div id="action-menu-modal" class="modal-overlay hidden" style="z-index: 400;">
+            <div class="action-menu-content" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); display: flex; flex-direction: column; justify-content: flex-end; padding: 24px;">
+                <div style="display: flex; flex-direction: column; gap: 24px; align-items: flex-end; margin-bottom: 24px;">
+                    <button class="action-menu-btn" data-action="send" style="background: none; border: none; display: flex; align-items: center; gap: 16px; cursor: pointer;">
+                        <span style="color: #fff; font-size: 18px; font-weight: 600;">Send</span>
+                        <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--accent-purple); display: flex; justify-content: center; align-items: center;">
+                            <i class="ph ph-paper-plane-tilt" style="color: #000; font-size: 24px;"></i>
+                        </div>
+                    </button>
+                    <button class="action-menu-btn" data-action="receive" style="background: none; border: none; display: flex; align-items: center; gap: 16px; cursor: pointer;">
+                        <span style="color: #fff; font-size: 18px; font-weight: 600;">Receive</span>
+                        <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--accent-purple); display: flex; justify-content: center; align-items: center;">
+                            <i class="ph ph-qr-code" style="color: #000; font-size: 24px;"></i>
+                        </div>
+                    </button>
+                    <button class="action-menu-btn" data-action="buy" style="background: none; border: none; display: flex; align-items: center; gap: 16px; cursor: pointer;">
+                        <span style="color: #fff; font-size: 18px; font-weight: 600;">Buy</span>
+                        <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--accent-purple); display: flex; justify-content: center; align-items: center;">
+                            <i class="ph ph-coin" style="color: #000; font-size: 24px;"></i>
+                        </div>
+                    </button>
+                </div>
+                <div style="display: flex; justify-content: flex-end;">
+                    <button id="close-action-menu" style="width: 48px; height: 48px; border-radius: 50%; background: #2B2B2B; border: none; display: flex; justify-content: center; align-items: center; cursor: pointer;">
+                        <i class="ph-bold ph-x" style="color: #fff; font-size: 20px;"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SELECT TOKEN MODAL -->
+        <div id="select-token-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); z-index: 500;">
+            <div class="full-screen-container" style="display: flex; flex-direction: column; height: 100%; width: 100%; padding: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <button class="icon-btn close-select-token" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-x"></i></button>
+                    <span style="font-weight: 600; font-size: 16px; color: #fff;">Select Token</span>
+                    <button class="icon-btn" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-info"></i></button>
+                </div>
+                <div style="margin-bottom: 24px;">
+                    <div style="background: #1B1B1B; border-radius: 16px; display: flex; align-items: center; padding: 12px 16px; gap: 12px;">
+                        <i class="ph ph-magnifying-glass" style="color: #666; font-size: 20px;"></i>
+                        <input type="text" placeholder="Search..." style="background: none; border: none; color: #fff; font-size: 16px; outline: none; width: 100%;">
+                    </div>
+                </div>
+                <h3 style="font-size: 16px; color: #EDEEEE; font-weight: 600; margin-bottom: 16px;">Tokens</h3>
+                <div id="select-token-list" style="display: flex; flex-direction: column; gap: 8px; overflow-y: auto; flex: 1; padding-bottom: 20px;">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- SEND ADDRESS MODAL -->
+        <div id="send-address-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); z-index: 600;">
+            <div class="full-screen-container" style="display: flex; flex-direction: column; height: 100%; width: 100%; padding: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <button class="icon-btn close-send-address" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-caret-left"></i></button>
+                    <span id="send-address-title" style="font-weight: 600; font-size: 16px; color: #fff;">SOL</span>
+                    <button id="send-address-next" style="background: none; border: none; color: #666; font-weight: 600; font-size: 16px;">Next</button>
+                </div>
+                <div style="display: flex; align-items: center; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 24px;">
+                    <span style="color: #fff; font-weight: 600; margin-right: 8px;">To:</span>
+                    <input type="text" id="send-address-input" placeholder="username or address" style="background: none; border: none; color: #fff; font-size: 16px; outline: none; flex: 1;">
+                    <i class="ph-bold ph-corners-out" style="color: #666; font-size: 20px;"></i>
+                </div>
+                <div style="overflow-y: auto; flex: 1; padding-bottom: 20px;">
+                    <div style="display: flex; align-items: center; gap: 8px; color: #909090; font-size: 14px; font-weight: 500; margin-bottom: 16px;">
+                        <i class="ph ph-clock"></i> Recently Used
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px; cursor: pointer;" onclick="document.getElementById('send-address-input').value = 'A2bg...DyDN'; document.getElementById('send-address-next').style.color = 'var(--accent-purple)';">
+                        <div style="width: 40px; height: 40px; border-radius: 50%; background: #252525; display: flex; justify-content: center; align-items: center;"><i class="ph ph-wallet" style="color: #fff; font-size: 20px;"></i></div>
+                        <div>
+                            <div style="color: #fff; font-weight: 600; font-size: 16px;">A2bg...DyDN</div>
+                            <div style="color: #909090; font-size: 14px;">Used 1mo ago</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 8px; color: #909090; font-size: 14px; font-weight: 500; margin-bottom: 16px;">
+                        <i class="ph ph-address-book"></i> Address Book
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 16px; cursor: pointer;">
+                        <div style="width: 40px; height: 40px; border-radius: 50%; background: #333; display: flex; justify-content: center; align-items: center; color: #fff; font-weight: 600;">A1</div>
+                        <div>
+                            <div style="color: #fff; font-weight: 600; font-size: 16px;">Account 1</div>
+                            <div style="color: #909090; font-size: 14px;">4HhK...oWoj</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEND AMOUNT MODAL -->
+        <div id="send-amount-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); z-index: 700;">
+            <div class="full-screen-container" style="display: flex; flex-direction: column; height: 100%; width: 100%; padding: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+                    <button class="icon-btn close-send-amount" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-caret-left"></i></button>
+                    <span style="font-weight: 600; font-size: 16px; color: #fff;">Enter Amount</span>
+                    <button style="background: none; border: none; color: #666; font-weight: 600; font-size: 16px;">Next</button>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 48px;">
+                    <span style="color: #fff; font-weight: 600;">To: <span id="send-amount-to-address">A2bg...DyDN</span></span>
+                    <i class="ph-fill ph-pencil-simple" style="color: #909090;"></i>
+                </div>
+                
+                <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: auto;">
+                    <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+                        <h1 id="send-amount-input-display" style="font-size: 72px; font-weight: 600; letter-spacing: -2px; color: #fff;">0</h1>
+                        <span id="send-amount-token-symbol" style="font-size: 48px; font-weight: 600; color: #fff;">SOL</span>
+                    </div>
+                    <span id="send-amount-fiat-display" style="color: #909090; font-size: 20px; font-weight: 500;">~$0.00</span>
+                    <div style="position: absolute; right: 24px; top: 250px;">
+                        <button style="width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.05); border: none; display: flex; justify-content: center; align-items: center;"><i class="ph-bold ph-arrows-down-up" style="color: #fff; font-size: 16px;"></i></button>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <div style="display: flex; flex-direction: column;">
+                        <span style="color: #909090; font-size: 13px;">Available To Send</span>
+                        <span id="send-amount-available" style="color: #fff; font-size: 15px; font-weight: 600;">0 SOL</span>
+                    </div>
+                    <button style="background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 14px;">Max</button>
+                </div>
+
+                <div class="custom-keypad" id="send-amount-keypad" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; padding: 8px; background: #222; border-radius: 12px; margin-left: -16px; margin-right: -16px;">
+                    <!-- Keypad populated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- RECEIVE MODAL -->
+        <div id="receive-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); z-index: 500;">
+            <div class="full-screen-container" style="display: flex; flex-direction: column; height: 100%; width: 100%; padding: 16px;">
+                <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 48px;">
+                    <button class="icon-btn close-receive" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-x"></i></button>
+                    <div style="display: flex; flex-direction: column;">
+                        <span style="font-weight: 600; font-size: 18px; color: #fff;">Receive</span>
+                        <span style="color: #909090; font-size: 14px;">Receive any Solana token</span>
+                    </div>
+                </div>
+                
+                <div style="display: flex; justify-content: center; margin-bottom: 32px;">
+                    <div style="background: #1B1B1B; padding: 24px; border-radius: 24px; position: relative;">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=DpuYzBbJ3jD5...ShjG7e&bgcolor=1B1B1B&color=FFFFFF" alt="QR Code" style="width: 250px; height: 250px; border-radius: 8px;">
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 64px; height: 64px; background: #1B1B1B; border-radius: 12px; display: flex; justify-content: center; align-items: center;">
+                            <img src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png" style="width: 40px; height: 40px; border-radius: 50%;">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: auto;">
+                    <span style="color: #fff; font-weight: 600; font-size: 16px;">Solana</span>
+                    <span style="color: #909090;">•</span>
+                    <span style="color: #909090; font-size: 16px;">DpuYzB...ShjG7e</span>
+                </div>
+
+                <div style="display: flex; gap: 16px; margin-bottom: 16px;">
+                    <button style="flex: 1; background: #1B1B1B; color: #fff; border: none; padding: 18px; border-radius: 24px; font-size: 16px; font-weight: 600;">Share</button>
+                    <button style="flex: 1; background: var(--accent-purple); color: #000; border: none; padding: 18px; border-radius: 24px; font-size: 16px; font-weight: 600;">Copy Address</button>
+                </div>
+            </div>
+        </div>
+</div>
+    <script src="script.js"></script>
+</body>
+</html>
