@@ -19,52 +19,62 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="toast hidden">
+        <i class="ph-fill ph-check-circle" style="color: #000; font-size: 20px;"></i>
+        <span id="toast-msg" style="color: #000; font-weight: 600; font-size: 15px;">Success</span>
+    </div>
+
     <div class="app-container">
         
         <!-- Top Navigation -->
-        <header class="top-bar">
-            <div class="profile-section">
-                <div class="profile-icon">
-                    <span style="font-size: 26px;">🔥</span>
+        <header class="top-bar" style="justify-content: space-between; align-items: center; padding: 16px 20px 8px;">
+            <div class="profile-section open-accounts-modal-btn" style="display: flex; align-items: center; gap: 12px; cursor: pointer;">
+                <div class="profile-icon" style="width: 44px; height: 44px; border-radius: 50%; background: #222; display: flex; justify-content: center; align-items: center; font-size: 24px;">🔥</div>
+                <div style="display: flex; flex-direction: column;">
+                    <span id="top-handle" style="color: #909090; font-size: 13px; font-weight: 500;">@DecentFlora1109</span>
+                    <span class="account-selector" style="color: #fff; font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 4px;">
+                        <span id="top-account-name">Account 1</span> <i class="ph-bold ph-caret-down" style="color: #909090; font-size: 14px;"></i>
+                    </span>
                 </div>
-                <div class="nav-pills">
-                    <button class="nav-pill active">Home</button>
-                    <button class="nav-pill">Trade</button>
-                    <button class="nav-pill" id="explore-btn">Explore</button>
-                </div>
+            </div>
+            <div style="display: flex; gap: 20px; color: #fff;">
+                <i class="ph-bold ph-corners-out" style="font-size: 24px; cursor: pointer;"></i>
+                <i class="ph-bold ph-magnifying-glass" style="font-size: 24px; cursor: pointer;"></i>
             </div>
         </header>
 
-        <!-- Account Info & Main Balance -->
-        <section class="main-balance">
-            <div class="account-selector">
-                <span class="account-name">Account 1</span>
-                <i class="ph ph-caret-down" style="color: #909090; font-size: 14px; margin-left: 4px;"></i>
-            </div>
-            <h2 class="balance-amount">$2,140,301.18</h2>
-            <div class="balance-change">
+        <!-- Main Balance -->
+        <section class="main-balance" style="text-align: center; margin-top: 16px; margin-bottom: 32px; flex-direction: column; align-items: center;">
+            <h2 class="balance-amount" style="font-size: 48px; font-weight: 700; color: #fff; margin-bottom: 4px;">$2,140,301.18</h2>
+            <div class="balance-change" style="justify-content: center; font-size: 15px;">
                 <span class="change-amount">+$238.057</span>
                 <span class="change-percent">+0.01%</span>
             </div>
         </section>
 
-        <!-- Cash Balance Card -->
-        <section class="cash-card">
-            <div class="cash-info" style="display: flex; flex-direction: row; align-items: center; gap: 12px;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" style="width: 20px; height: 20px; min-width: 20px;" fill="#909090">
-                    <rect width="256" height="256" fill="none"/>
-                    <path d="M168,128a40,40,0,1,1-40-40A40,40,0,0,1,168,128Zm80-64V192a8,8,0,0,1-8,8H16a8,8,0,0,1-8-8V64a8,8,0,0,1,8-8H240A8,8,0,0,1,248,64Zm-16,46.35A56.78,56.78,0,0,1,193.65,72H62.35A56.78,56.78,0,0,1,24,110.35v35.3A56.78,56.78,0,0,1,62.35,184h131.3A56.78,56.78,0,0,1,232,145.65Z"/>
-                </svg>
-                <span class="cash-label" style="font-size: 17px; color: #EDEEEE;">Cash</span>
-            </div>
-            <span class="cash-amount" style="font-size: 17px; font-weight: 400;">$0.00</span>
-        </section>
+        <!-- Action Grid -->
+        <div class="action-buttons-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 0 20px; margin-bottom: 24px;">
+            <button class="action-grid-btn" data-action="receive" style="background: #222; border-radius: 16px; border: none; padding: 16px 0; display: flex; flex-direction: column; align-items: center; gap: 8px; color: #fff; cursor: pointer;">
+                <i class="ph-bold ph-qr-code" style="color: #ab9ff2; font-size: 24px;"></i>
+                <span style="font-size: 13px; font-weight: 500; color: #909090;">Receive</span>
+            </button>
+            <button class="action-grid-btn" data-action="send" style="background: #222; border-radius: 16px; border: none; padding: 16px 0; display: flex; flex-direction: column; align-items: center; gap: 8px; color: #fff; cursor: pointer;">
+                <i class="ph-bold ph-paper-plane-right" style="color: #ab9ff2; font-size: 24px;"></i>
+                <span style="font-size: 13px; font-weight: 500; color: #909090;">Send</span>
+            </button>
+            <button class="action-grid-btn" data-action="buy" style="background: #222; border-radius: 16px; border: none; padding: 16px 0; display: flex; flex-direction: column; align-items: center; gap: 8px; color: #fff; cursor: pointer;">
+                <i class="ph-bold ph-arrows-left-right" style="color: #ab9ff2; font-size: 24px;"></i>
+                <span style="font-size: 13px; font-weight: 500; color: #909090;">Swap</span>
+            </button>
+            <button class="action-grid-btn" data-action="buy-fiat" style="background: #222; border-radius: 16px; border: none; padding: 16px 0; display: flex; flex-direction: column; align-items: center; gap: 8px; color: #fff; cursor: pointer;">
+                <i class="ph-bold ph-currency-dollar" style="color: #ab9ff2; font-size: 24px;"></i>
+                <span style="font-size: 13px; font-weight: 500; color: #909090;">Buy</span>
+            </button>
+        </div>
 
         <!-- Tokens Section -->
         <section class="tokens-section">
-            <div class="section-header">
-                <h3>Tokens <i class="ph-bold ph-caret-right"></i></h3>
-            </div>
             <div class="token-list">
                 <!-- USDC -->
                 <div class="token-item">
@@ -140,13 +150,23 @@
             </div>
         </section>
 
-        <!-- Bottom Navigation -->
-        <nav class="bottom-floating-nav">
-            <div class="search-bar">
-                <i class="ph ph-magnifying-glass"></i>
-                <span style="color: #666; font-size: 15px;">Search Phantom</span>
+        <!-- Bottom Tab Bar -->
+        <nav class="bottom-tab-bar" style="position: fixed; bottom: 0; left: 0; width: 100%; max-width: 500px; margin: 0 auto; right: 0; background: #000; border-top: 1px solid #1B1B1B; display: flex; justify-content: space-around; align-items: center; padding: 16px 0; z-index: 100;">
+            <div class="tab-item active" style="display: flex; flex-direction: column; align-items: center; color: var(--accent-purple); cursor: pointer;">
+                <i class="ph-fill ph-house" style="font-size: 28px;"></i>
             </div>
-            <button class="add-btn"><i class="ph ph-plus"></i></button>
+            <div class="tab-item" style="display: flex; flex-direction: column; align-items: center; color: #666; cursor: pointer;">
+                <i class="ph-bold ph-squares-four" style="font-size: 28px;"></i>
+            </div>
+            <div class="tab-item swap-tab" style="display: flex; flex-direction: column; align-items: center; color: #666; cursor: pointer;">
+                <i class="ph-bold ph-arrows-left-right" style="font-size: 28px;"></i>
+            </div>
+            <div class="tab-item activity-tab" style="display: flex; flex-direction: column; align-items: center; color: #666; cursor: pointer;">
+                <i class="ph-bold ph-clock" style="font-size: 28px;"></i>
+            </div>
+            <div class="tab-item browser-tab" style="display: flex; flex-direction: column; align-items: center; color: #666; cursor: pointer;">
+                <i class="ph-bold ph-magnifying-glass" style="font-size: 28px;"></i>
+            </div>
         </nav>
 
         <!-- Edit Modal Overlay -->
@@ -398,7 +418,7 @@
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
                     <button class="icon-btn close-send-amount" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-caret-left"></i></button>
                     <span style="font-weight: 600; font-size: 16px; color: #fff;">Enter Amount</span>
-                    <button style="background: none; border: none; color: #666; font-weight: 600; font-size: 16px;">Next</button>
+                    <button id="send-confirm-btn" style="background: none; border: none; color: var(--accent-purple); font-weight: 600; font-size: 16px; cursor: pointer;">Send</button>
                 </div>
                 
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 48px;">
@@ -438,7 +458,7 @@
                     <button class="icon-btn close-receive" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-x"></i></button>
                     <div style="display: flex; flex-direction: column;">
                         <span style="font-weight: 600; font-size: 18px; color: #fff;">Receive</span>
-                        <span style="color: #909090; font-size: 14px;">Receive any Solana token</span>
+                        <span id="receive-title" style="color: #909090; font-size: 14px;">Receive any Solana token</span>
                     </div>
                 </div>
                 
@@ -446,24 +466,248 @@
                     <div style="background: #1B1B1B; padding: 24px; border-radius: 24px; position: relative;">
                         <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=DpuYzBbJ3jD5...ShjG7e&bgcolor=1B1B1B&color=FFFFFF" alt="QR Code" style="width: 250px; height: 250px; border-radius: 8px;">
                         <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 64px; height: 64px; background: #1B1B1B; border-radius: 12px; display: flex; justify-content: center; align-items: center;">
-                            <img src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png" style="width: 40px; height: 40px; border-radius: 50%;">
+                            <img id="receive-qr-logo" src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png" style="width: 40px; height: 40px; border-radius: 50%;">
                         </div>
                     </div>
                 </div>
 
                 <div style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: auto;">
-                    <span style="color: #fff; font-weight: 600; font-size: 16px;">Solana</span>
+                    <span id="receive-token-name" style="color: #fff; font-weight: 600; font-size: 16px;">Solana</span>
                     <span style="color: #909090;">•</span>
                     <span style="color: #909090; font-size: 16px;">DpuYzB...ShjG7e</span>
                 </div>
 
                 <div style="display: flex; gap: 16px; margin-bottom: 16px;">
                     <button style="flex: 1; background: #1B1B1B; color: #fff; border: none; padding: 18px; border-radius: 24px; font-size: 16px; font-weight: 600;">Share</button>
-                    <button style="flex: 1; background: var(--accent-purple); color: #000; border: none; padding: 18px; border-radius: 24px; font-size: 16px; font-weight: 600;">Copy Address</button>
+                    <button id="receive-copy-btn" style="flex: 1; background: var(--accent-purple); color: #000; border: none; padding: 18px; border-radius: 24px; font-size: 16px; font-weight: 600; cursor: pointer;">Copy Address</button>
                 </div>
             </div>
         </div>
-</div>
+
+        <!-- SIDE MENU DRAWER -->
+        <div id="side-menu-drawer" class="modal-overlay hidden" style="z-index: 1000;">
+            <div class="side-drawer-content" style="width: 85%; height: 100%; position: absolute; top: 0; left: 0; background: #000; display: flex; flex-direction: column; padding: 24px; padding-top: 48px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+                    <div style="width: 56px; height: 56px; border-radius: 50%; background: #222; display: flex; justify-content: center; align-items: center; font-size: 32px;">🔥</div>
+                </div>
+                <h2 style="color: #fff; font-size: 24px; font-weight: 600; margin-bottom: 24px;">@DecentFlora1109</h2>
+                <div class="open-accounts-modal-btn" style="display: flex; align-items: center; gap: 8px; color: #909090; font-size: 16px; font-weight: 500; margin-bottom: 48px; cursor: pointer;">
+                    <i class="ph-bold ph-eye"></i> meta <i class="ph-bold ph-caret-down"></i>
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: 32px; flex: 1;">
+                    <div style="display: flex; align-items: center; gap: 16px; color: #fff; font-size: 18px; font-weight: 500; cursor: pointer;">
+                        <i class="ph-bold ph-user" style="font-size: 24px;"></i> Profile
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 16px; color: #fff; font-size: 18px; font-weight: 500; cursor: pointer;">
+                        <i class="ph-bold ph-chat-circle" style="font-size: 24px;"></i> Chats
+                    </div>
+                    <div id="open-history-btn" style="display: flex; align-items: center; gap: 16px; color: #fff; font-size: 18px; font-weight: 500; cursor: pointer;">
+                        <i class="ph-bold ph-clock" style="font-size: 24px;"></i> History
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 32px; padding-bottom: 24px;">
+                    <div id="open-settings-btn" style="display: flex; align-items: center; gap: 16px; color: #909090; font-size: 18px; font-weight: 500; cursor: pointer;">
+                        <i class="ph-bold ph-gear" style="font-size: 24px;"></i> Settings
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 16px; color: #909090; font-size: 18px; font-weight: 500; cursor: pointer;">
+                        <i class="ph-bold ph-info" style="font-size: 24px;"></i> Help & Support
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- HISTORY MODAL -->
+        <div id="history-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); z-index: 600;">
+            <div class="full-screen-container" style="display: flex; flex-direction: column; height: 100%; width: 100%; padding: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <button class="icon-btn close-history-modal" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-x"></i></button>
+                    <span style="font-weight: 600; font-size: 16px; color: #fff;">History</span>
+                    <button class="icon-btn" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-dots-three"></i></button>
+                </div>
+                
+                <div id="history-list-container" style="overflow-y: auto; flex: 1; padding-bottom: 20px;">
+                    <!-- History populated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- SETTINGS MODAL -->
+        <div id="settings-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); z-index: 1500;">
+            <div class="full-screen-container" style="display: flex; flex-direction: column; height: 100%; width: 100%; padding: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <button class="icon-btn close-settings-modal" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-x"></i></button>
+                    <span style="font-weight: 600; font-size: 16px; color: #fff;">Settings</span>
+                    <div style="width: 40px; height: 40px;"></div>
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: 12px; overflow-y: auto; flex: 1;">
+                    <div style="color: #909090; font-size: 14px; font-weight: 500; margin-left: 16px; margin-bottom: 4px;">Security & Privacy</div>
+                    <div style="background: #1B1B1B; border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 16px; color: #fff; font-size: 16px; font-weight: 500;">
+                            <i class="ph-bold ph-face-id" style="font-size: 20px; color: #909090;"></i> Face ID
+                        </div>
+                        <div style="width: 44px; height: 24px; background: var(--accent-purple); border-radius: 12px; position: relative;">
+                            <div style="width: 20px; height: 20px; background: #000; border-radius: 50%; position: absolute; right: 2px; top: 2px;"></div>
+                        </div>
+                    </div>
+                    <div style="background: #1B1B1B; border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 16px; color: #fff; font-size: 16px; font-weight: 500;">
+                            <i class="ph-bold ph-lock-key" style="font-size: 20px; color: #909090;"></i> Auto-Lock
+                        </div>
+                        <div style="color: #909090; font-size: 15px; display: flex; align-items: center; gap: 8px;">1 minute <i class="ph-bold ph-caret-right"></i></div>
+                    </div>
+
+                    <div style="color: #909090; font-size: 14px; font-weight: 500; margin-left: 16px; margin-bottom: 4px; margin-top: 16px;">Preferences</div>
+                    <div style="background: #1B1B1B; border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 16px; color: #fff; font-size: 16px; font-weight: 500;">
+                            <i class="ph-bold ph-address-book" style="font-size: 20px; color: #909090;"></i> Address Book
+                        </div>
+                        <i class="ph-bold ph-caret-right" style="color: #666;"></i>
+                    </div>
+                    <div style="background: #1B1B1B; border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 16px; color: #fff; font-size: 16px; font-weight: 500;">
+                            <i class="ph-bold ph-globe" style="font-size: 20px; color: #909090;"></i> Trusted Apps
+                        </div>
+                        <i class="ph-bold ph-caret-right" style="color: #666;"></i>
+                    </div>
+
+                    <div style="color: #909090; font-size: 14px; font-weight: 500; margin-left: 16px; margin-bottom: 4px; margin-top: 16px;">Developer</div>
+                    <div style="background: #1B1B1B; border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 16px; color: #fff; font-size: 16px; font-weight: 500;">
+                            <i class="ph-bold ph-code" style="font-size: 20px; color: #909090;"></i> Developer Mode
+                        </div>
+                        <div style="width: 44px; height: 24px; background: #333; border-radius: 12px; position: relative;">
+                            <div style="width: 20px; height: 20px; background: #909090; border-radius: 50%; position: absolute; left: 2px; top: 2px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACCOUNTS MODAL -->
+        <div id="accounts-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); z-index: 1500;">
+            <div class="full-screen-container" style="display: flex; flex-direction: column; height: 100%; width: 100%; padding: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <button class="icon-btn close-accounts-modal" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-x"></i></button>
+                    <span style="font-weight: 600; font-size: 16px; color: #fff;">Your Accounts</span>
+                    <button class="icon-btn" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-plus"></i></button>
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: 12px; overflow-y: auto; flex: 1;">
+                    <div style="background: #1B1B1B; border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background: #333; color: #fff; font-weight: 600; display: flex; justify-content: center; align-items: center;">A1</div>
+                            <div>
+                                <div style="color: #fff; font-weight: 600; font-size: 16px;">Account 1</div>
+                                <div style="color: #909090; font-size: 14px;">$0.46</div>
+                            </div>
+                        </div>
+                        <i class="ph-bold ph-pencil-simple" style="color: #666; font-size: 20px;"></i>
+                    </div>
+
+                    <div style="background: #1B1B1B; border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div style="position: relative; width: 40px; height: 40px; border-radius: 50%; background: #333; color: #fff; font-weight: 600; display: flex; justify-content: center; align-items: center;"><i class="ph-bold ph-eye"></i></div>
+                            <div>
+                                <div style="color: #fff; font-weight: 600; font-size: 16px; display: flex; align-items: center; gap: 8px;">gh <i class="ph-bold ph-eye" style="color: #666; font-size: 14px;"></i></div>
+                                <div style="color: #909090; font-size: 14px;">$160.06</div>
+                            </div>
+                        </div>
+                        <i class="ph-bold ph-pencil-simple" style="color: #666; font-size: 20px;"></i>
+                    </div>
+
+                    <div style="background: #1B1B1B; border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background: #333; color: #fff; font-weight: 600; display: flex; justify-content: center; align-items: center;">A3</div>
+                            <div>
+                                <div style="color: #fff; font-weight: 600; font-size: 16px;">Account 3</div>
+                                <div style="color: #909090; font-size: 14px;">$0.00</div>
+                            </div>
+                        </div>
+                        <i class="ph-bold ph-pencil-simple" style="color: #666; font-size: 20px;"></i>
+                    </div>
+
+                    <div style="background: #1B1B1B; border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; border: 1px solid var(--accent-purple);">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div style="position: relative; width: 40px; height: 40px; border-radius: 50%; background: #333; color: #fff; font-weight: 600; display: flex; justify-content: center; align-items: center;">
+                                <i class="ph-bold ph-eye"></i>
+                                <div style="position: absolute; bottom: -4px; right: -4px; width: 16px; height: 16px; border-radius: 50%; background: var(--accent-purple); display: flex; justify-content: center; align-items: center;"><i class="ph-bold ph-check" style="color: #000; font-size: 10px;"></i></div>
+                            </div>
+                            <div>
+                                <div style="color: #fff; font-weight: 600; font-size: 16px; display: flex; align-items: center; gap: 8px;">meta <i class="ph-bold ph-eye" style="color: #666; font-size: 14px;"></i></div>
+                                <div style="color: #909090; font-size: 14px;">$25,862.86</div>
+                            </div>
+                        </div>
+                        <i class="ph-bold ph-pencil-simple" style="color: #666; font-size: 20px;"></i>
+                    </div>
+
+                    <div style="background: #1B1B1B; border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background: #333; color: #fff; font-weight: 600; display: flex; justify-content: center; align-items: center;">A5</div>
+                            <div>
+                                <div style="color: #fff; font-weight: 600; font-size: 16px;">Account 5</div>
+                                <div style="color: #909090; font-size: 14px;">$0.00</div>
+                            </div>
+                        </div>
+                        <i class="ph-bold ph-pencil-simple" style="color: #666; font-size: 20px;"></i>
+                    </div>
+
+                    <div style="background: #1B1B1B; border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background: #333; color: #fff; font-weight: 600; display: flex; justify-content: center; align-items: center;">A6</div>
+                            <div>
+                                <div style="color: #fff; font-weight: 600; font-size: 16px;">Account 6</div>
+                                <div style="color: #909090; font-size: 14px;">$1.48</div>
+                            </div>
+                        </div>
+                        <i class="ph-bold ph-pencil-simple" style="color: #666; font-size: 20px;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FIAT ON-RAMP MODAL -->
+        <div id="fiat-onramp-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); z-index: 700;">
+            <div class="full-screen-container" style="display: flex; flex-direction: column; height: 100%; width: 100%; padding: 16px; padding-top: 48px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <button class="icon-btn close-fiat-modal" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-x"></i></button>
+                    <span style="font-weight: 600; font-size: 16px; color: #fff;">Buy Crypto</span>
+                    <div style="width: 40px; height: 40px;"></div>
+                </div>
+
+                <div style="color: #909090; font-size: 15px; margin-bottom: 24px; text-align: center;">Select a provider to buy crypto with cash.</div>
+
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div class="fiat-provider-btn" style="background: #1B1B1B; border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div style="width: 40px; height: 40px; background: #7A35FF; border-radius: 50%; display: flex; justify-content: center; align-items: center;"><i class="ph-bold ph-moon" style="color: #fff; font-size: 20px;"></i></div>
+                            <div style="display: flex; flex-direction: column;">
+                                <span style="color: #fff; font-weight: 600; font-size: 16px;">MoonPay</span>
+                                <span style="color: #909090; font-size: 14px;">Apple Pay, Debit Card</span>
+                            </div>
+                        </div>
+                        <i class="ph-bold ph-arrow-up-right" style="color: #666;"></i>
+                    </div>
+
+                    <div class="fiat-provider-btn" style="background: #1B1B1B; border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div style="width: 40px; height: 40px; background: #0052FF; border-radius: 50%; display: flex; justify-content: center; align-items: center;"><div style="width: 16px; height: 16px; background: #fff; border-radius: 50%;"></div></div>
+                            <div style="display: flex; flex-direction: column;">
+                                <span style="color: #fff; font-weight: 600; font-size: 16px;">Coinbase Pay</span>
+                                <span style="color: #909090; font-size: 14px;">Bank Transfer, Crypto</span>
+                            </div>
+                        </div>
+                        <i class="ph-bold ph-arrow-up-right" style="color: #666;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Main Logic Script -->
     <script src="script.js"></script>
 </body>
 </html>

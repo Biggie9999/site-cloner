@@ -10,6 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
         tokens: [
             { name: 'Solana', amount: '20 SOL', fiatValue: '$0.00', fiatChange: '$0.00', changeType: 'neutral', logo: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png', tokenAddress: 'So11111111111111111111111111111111111111112', entryInvestment: '', entryMcap: '', priceUsd: 0 },
             { name: 'USDC', amount: '0 USDC', fiatValue: '$0.00', fiatChange: '$0.00', changeType: 'neutral', logo: 'https://cryptologos.cc/logos/usd-coin-usdc-logo.svg?v=029', tokenAddress: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v', entryInvestment: '', entryMcap: '', priceUsd: 1 }
+        ],
+        history: [
+            { id: 1, type: 'Received', fromTo: 'From 3TZp...crQ3', amount: '+16M Polyma...', date: 'Yesterday', icon: 'ph-arrow-down-left', iconColor: '#0052FF', badgeIcon: 'ph-arrow-down', badgeColor: 'var(--accent-purple)', amountColor: 'var(--accent-green)' },
+            { id: 2, type: 'Swapped', fromTo: 'Unknown', amount: '+12.05M PURCH', subAmount: '-50 SOL', date: 'Jul 30, 2026', img: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png', badgeImg: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png', amountColor: 'var(--accent-green)' },
+            { id: 3, type: 'Sent', fromTo: 'To A5Me...pqWR', amount: '-25M DePIN', date: 'Jul 25, 2026', icon: 'ph-arrow-up-right', iconColor: '#CC0000', badgeIcon: 'ph-paper-plane-right', badgeColor: '#0052FF', amountColor: '#909090' }
         ]
     };
 
@@ -94,22 +99,35 @@ document.addEventListener('DOMContentLoaded', () => {
         cashAmountEl.textContent = appState.cashAmount;
 
         tokenListEl.innerHTML = '';
+        const getChainBadge = (name) => {
+            let img = 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png';
+            if (name.includes('Ethereum') || name.includes('ETH')) img = 'https://cryptologos.cc/logos/ethereum-eth-logo.svg?v=029';
+            else if (name.includes('Polygon')) img = 'https://cryptologos.cc/logos/polygon-matic-logo.svg?v=029';
+            else if (name.includes('Bitcoin') || name.includes('BTC')) img = 'https://cryptologos.cc/logos/bitcoin-btc-logo.svg?v=029';
+            
+            return `<div style="position: absolute; bottom: -2px; right: -2px; width: 18px; height: 18px; border-radius: 50%; background: #1B1B1B; display: flex; justify-content: center; align-items: center; padding: 2px;"><img src="${img}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;"></div>`;
+        };
+
         appState.tokens.forEach((token, index) => {
+            const isNegative = token.fiatChange && token.fiatChange.startsWith('-');
+            const changeColor = isNegative ? '#FF5C5C' : '#4ADE80';
+            const changeText = isNegative ? token.fiatChange : (token.fiatChange === '$0.00' ? '+$0.00' : `+${token.fiatChange}`);
+            
             const tokenHTML = `
-                <div class="token-item" data-name="${token.name}">
-                    <div class="token-icon">
-                        <img src="${token.logo}" alt="${token.name}">
-                    </div>
-                    <div class="token-details">
-                        <div class="token-name-row">
-                            <span class="token-name">${token.name}</span>
-                            <i class="ph-fill ph-seal-check verified"></i>
+                <div class="token-item" data-name="${token.name}" style="background: #1B1B1B; border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; cursor: pointer;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="position: relative; width: 44px; height: 44px;">
+                            <img src="${token.logo}" alt="${token.name}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #fff;">
+                            ${getChainBadge(token.name)}
                         </div>
-                        <span class="token-amount">${token.amount}</span>
+                        <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 2px;">
+                            <span style="color: #fff; font-weight: 600; font-size: 16px;">${token.name}</span>
+                            <span style="color: #909090; font-size: 13px;">${token.amount}</span>
+                        </div>
                     </div>
-                    <div class="token-value">
-                        <span class="fiat-value">${token.fiatValue}</span>
-                        <span class="fiat-change ${token.changeType}">${token.fiatChange}</span>
+                    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px;">
+                        <span style="color: #fff; font-weight: 600; font-size: 16px;">${token.fiatValue}</span>
+                        <span style="font-size: 13px; color: ${changeColor};">${changeText}</span>
                     </div>
                 </div>
             `;
@@ -123,11 +141,89 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (t) openTokenDetails(t);
             });
         });
+
+        renderHistory();
         saveState();
     }
-
     renderApp();
 
+    function renderHistory() {
+        const historyContainer = document.getElementById('history-list-container');
+        if(!historyContainer) return;
+        historyContainer.innerHTML = '';
+        
+        if(!appState.history || appState.history.length === 0) {
+            historyContainer.innerHTML = '<div style="color:#909090; text-align:center; margin-top:24px;">No transactions yet</div>';
+            return;
+        }
+
+        const groups = {};
+        appState.history.forEach(tx => {
+            if(!groups[tx.date]) groups[tx.date] = [];
+            groups[tx.date].push(tx);
+        });
+
+        Object.keys(groups).forEach(date => {
+            historyContainer.insertAdjacentHTML('beforeend', `<div style="color: #909090; font-size: 14px; font-weight: 500; margin-bottom: 12px; margin-top: 16px;">${date}</div>`);
+            
+            groups[date].forEach(tx => {
+                let iconHtml = '';
+                if(tx.img) {
+                    iconHtml = `
+                        <div style="position: relative; width: 44px; height: 44px;">
+                            <img src="${tx.img}" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; opacity: 0.8;">
+                            <div style="position: absolute; bottom: -4px; right: -4px; width: 20px; height: 20px; border-radius: 50%; background: #222; display: flex; justify-content: center; align-items: center;"><img src="${tx.badgeImg || tx.img}" style="width:16px; height:16px; border-radius: 50%;"></div>
+                        </div>
+                    `;
+                } else {
+                    iconHtml = `
+                        <div style="position: relative; width: 44px; height: 44px;">
+                            <div style="width: 44px; height: 44px; border-radius: 50%; background: ${tx.iconColor}; display: flex; justify-content: center; align-items: center;"><i class="ph-bold ${tx.icon}" style="color: #fff; font-size: 20px;"></i></div>
+                            <div style="position: absolute; bottom: -4px; right: -4px; width: 20px; height: 20px; border-radius: 50%; background: ${tx.badgeColor}; display: flex; justify-content: center; align-items: center;"><i class="ph-bold ${tx.badgeIcon}" style="color: #fff; font-size: 12px;"></i></div>
+                        </div>
+                    `;
+                }
+
+                let amountHtml = '';
+                if(tx.subAmount) {
+                    amountHtml = `
+                        <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                            <div style="color: ${tx.amountColor}; font-weight: 600; font-size: 15px;">${tx.amount}</div>
+                            <div style="color: #909090; font-size: 14px;">${tx.subAmount}</div>
+                        </div>
+                    `;
+                } else {
+                    amountHtml = `<div style="color: ${tx.amountColor}; font-weight: 600; font-size: 15px;">${tx.amount}</div>`;
+                }
+
+                historyContainer.insertAdjacentHTML('beforeend', `
+                    <div style="background: #1B1B1B; border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            ${iconHtml}
+                            <div>
+                                <div style="color: #fff; font-weight: 600; font-size: 16px;">${tx.type}</div>
+                                <div style="color: #909090; font-size: 14px;">${tx.fromTo}</div>
+                            </div>
+                        </div>
+                        ${amountHtml}
+                    </div>
+                `);
+            });
+        });
+    }
+
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toast-msg');
+        if(!toast || !toastMsg) return;
+        toastMsg.textContent = message;
+        toast.classList.remove('hidden');
+        setTimeout(() => toast.classList.add('show'), 10);
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.classList.add('hidden'), 400);
+        }, 3000);
+    }
 
     // --- Live DexScreener Fetching ---
     async function fetchLiveUpdates() {
@@ -412,6 +508,21 @@ document.addEventListener('DOMContentLoaded', () => {
         
         tradingModal.classList.add('hidden');
         tokenDetailsModal.classList.add('hidden');
+
+        // Add to history
+        if (!appState.history) appState.history = [];
+        appState.history.unshift({
+            id: Date.now(),
+            type: 'Swapped',
+            fromTo: 'Jupiter DEX',
+            amount: currentTradeAction === 'buy' ? `+${(inputUsd / currentToken.priceUsd).toFixed(2)} ${currentToken.name}` : `+${(inputUsd / solToken.priceUsd).toFixed(2)} SOL`,
+            subAmount: currentTradeAction === 'buy' ? `-$${inputUsd.toFixed(2)}` : `-${(inputUsd / currentToken.priceUsd).toFixed(2)} ${currentToken.name}`,
+            date: 'Today',
+            img: currentTradeAction === 'buy' ? currentToken.logo : solToken.logo,
+            badgeImg: currentTradeAction === 'buy' ? solToken.logo : currentToken.logo,
+            amountColor: 'var(--accent-green)'
+        });
+
         currentToken = null;
 
         // Synchronously update fiat values for instant UI feedback
@@ -436,6 +547,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         saveState();
         renderApp();
+        showToast('Swap Successful!');
     });
 
     // --- Edit Modal Form Logic ---
@@ -559,6 +671,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendAddressModal = document.getElementById('send-address-modal');
     const sendAmountModal = document.getElementById('send-amount-modal');
     const receiveModal = document.getElementById('receive-modal');
+    const sideMenuDrawer = document.getElementById('side-menu-drawer');
+    const historyModal = document.getElementById('history-modal');
+    const accountsModal = document.getElementById('accounts-modal');
 
     // Bottom Nav Plus Button
     const addBtn = document.querySelector('.add-btn');
@@ -575,17 +690,87 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.close-send-amount').addEventListener('click', () => sendAmountModal.classList.add('hidden'));
     document.querySelector('.close-receive').addEventListener('click', () => receiveModal.classList.add('hidden'));
 
-    // Action Menu Buttons
-    document.querySelectorAll('.action-menu-btn').forEach(btn => {
+    // Side Menu, History, Accounts logic
+    const profileIconBtn = document.querySelector('.profile-icon');
+    if(profileIconBtn) {
+        profileIconBtn.addEventListener('click', () => sideMenuDrawer.classList.remove('hidden'));
+    }
+    
+    // Close side menu if clicked outside content
+    sideMenuDrawer.addEventListener('click', (e) => {
+        if(e.target === sideMenuDrawer) sideMenuDrawer.classList.add('hidden');
+    });
+
+    document.getElementById('open-history-btn').addEventListener('click', () => {
+        sideMenuDrawer.classList.add('hidden');
+        historyModal.classList.remove('hidden');
+    });
+    
+    document.querySelector('.close-history-modal').addEventListener('click', () => historyModal.classList.add('hidden'));
+
+    const openAccountsBtns = document.querySelectorAll('.account-selector, .open-accounts-modal-btn');
+    openAccountsBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            currentFlow = btn.getAttribute('data-action');
-            actionMenuModal.classList.add('hidden');
-            
-            if (currentFlow === 'receive') {
-                receiveModal.classList.remove('hidden');
-            } else if (currentFlow === 'send' || currentFlow === 'buy') {
+            sideMenuDrawer.classList.add('hidden');
+            accountsModal.classList.remove('hidden');
+        });
+    });
+
+    document.querySelector('.close-accounts-modal').addEventListener('click', () => accountsModal.classList.add('hidden'));
+
+    const settingsModal = document.getElementById('settings-modal');
+    const openSettingsBtn = document.getElementById('open-settings-btn');
+    if(openSettingsBtn) {
+        openSettingsBtn.addEventListener('click', () => {
+            sideMenuDrawer.classList.add('hidden');
+            settingsModal.classList.remove('hidden');
+        });
+    }
+    document.querySelector('.close-settings-modal').addEventListener('click', () => settingsModal.classList.add('hidden'));
+
+    const receiveCopyBtn = document.getElementById('receive-copy-btn');
+    if(receiveCopyBtn) {
+        receiveCopyBtn.addEventListener('click', () => {
+            showToast('Address Copied!');
+        });
+    }
+
+    // Action Grid Buttons
+    document.querySelectorAll('.action-grid-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const action = btn.getAttribute('data-action');
+            if (action === 'receive' || action === 'send') {
+                currentFlow = action;
                 populateSelectToken();
                 selectTokenModal.classList.remove('hidden');
+            } else if (action === 'buy') { // Swap
+                currentToken = appState.tokens.find(t => t.name === 'Solana');
+                openTrading('buy');
+            } else if (action === 'buy-fiat') { // Buy
+                document.getElementById('fiat-onramp-modal').classList.remove('hidden');
+            }
+        });
+    });
+
+    // Bottom Tabs
+    document.querySelectorAll('.tab-item').forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Reset colors
+            document.querySelectorAll('.tab-item').forEach(t => {
+                t.classList.remove('active');
+                t.style.color = '#666';
+            });
+            tab.classList.add('active');
+            tab.style.color = 'var(--accent-purple)';
+            
+            if (tab.classList.contains('activity-tab')) {
+                document.getElementById('history-modal').classList.remove('hidden');
+                // Reset active tab back to Home visually when closing history is handled elsewhere, or just let it be
+            } else if (tab.classList.contains('swap-tab')) {
+                currentToken = appState.tokens.find(t => t.name === 'Solana');
+                openTrading('buy');
+            } else if (tab.classList.contains('browser-tab')) {
+                showToast('Browser coming soon!');
             }
         });
     });
@@ -620,12 +805,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (currentFlow === 'send') {
                     document.getElementById('send-address-title').textContent = currentToken.name;
                     sendAddressModal.classList.remove('hidden');
-                } else if (currentFlow === 'buy') {
-                    openTrading('buy');
+                } else if (currentFlow === 'receive') {
+                    document.getElementById('receive-title').textContent = `Receive any ${currentToken.name} token`;
+                    document.getElementById('receive-token-name').textContent = currentToken.name;
+                    document.getElementById('receive-qr-logo').src = currentToken.logo;
+                    receiveModal.classList.remove('hidden');
                 }
             });
         });
     }
+
+    // Fiat On-Ramp Logic
+    const fiatOnrampModal = document.getElementById('fiat-onramp-modal');
+    document.querySelector('.close-fiat-modal').addEventListener('click', () => fiatOnrampModal.classList.add('hidden'));
+    
+    document.querySelectorAll('.fiat-provider-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            fiatOnrampModal.classList.add('hidden');
+            showToast('Redirecting to provider...');
+        });
+    });
 
     // Send Address Next
     const sendAddressNext = document.getElementById('send-address-next');
@@ -650,6 +849,46 @@ document.addEventListener('DOMContentLoaded', () => {
         updateSendAmountDisplay();
         sendAmountModal.classList.remove('hidden');
     });
+
+    const sendConfirmBtn = document.getElementById('send-confirm-btn');
+    if(sendConfirmBtn) {
+        sendConfirmBtn.addEventListener('click', () => {
+            const numAmt = parseFloat(sendAmountInputValue) || 0;
+            if (numAmt <= 0) return;
+
+            // Deduct balance
+            const currAmt = parseFloat(currentToken.amount.split(' ')[0]) || 0;
+            if (currAmt >= numAmt) {
+                currentToken.amount = `${(currAmt - numAmt).toFixed(4)} ${currentToken.name}`;
+                if (currentToken.priceUsd) {
+                    const currentFiat = parseMoney(currentToken.fiatValue);
+                    currentToken.fiatValue = formatMoney(currentFiat - (numAmt * currentToken.priceUsd));
+                }
+                
+                // Add to history
+                if (!appState.history) appState.history = [];
+                appState.history.unshift({
+                    id: Date.now(),
+                    type: 'Sent',
+                    fromTo: `To ${document.getElementById('send-address-input').value.substring(0,6)}...`,
+                    amount: `-${numAmt} ${currentToken.name === 'Solana' ? 'SOL' : currentToken.name}`,
+                    date: 'Today',
+                    icon: 'ph-arrow-up-right',
+                    iconColor: '#CC0000',
+                    badgeIcon: 'ph-paper-plane-right',
+                    badgeColor: '#0052FF',
+                    amountColor: '#fff'
+                });
+
+                sendAmountModal.classList.add('hidden');
+                saveState();
+                renderApp();
+                showToast('Transaction Sent!');
+            } else {
+                showToast('Insufficient Balance');
+            }
+        });
+    }
 
     // Send Amount Keypad Logic
     let sendAmountInputValue = "0";

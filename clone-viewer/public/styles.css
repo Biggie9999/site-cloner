@@ -530,6 +530,15 @@ body {
     transition: transform 0.3s ease;
 }
 
+.side-drawer-content {
+    transform: translateX(0);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-overlay.hidden .side-drawer-content {
+    transform: translateX(-100%);
+}
+
 .custom-keypad button {
     background: #333;
     border: none;
@@ -554,4 +563,31 @@ body {
     color: #999;
     margin-top: 2px;
     letter-spacing: 2px;
+}
+
+/* Toast Notification */
+.toast {
+    position: fixed;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--accent-green);
+    color: #000;
+    padding: 12px 24px;
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 9999;
+    transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.toast.show {
+    top: 24px;
+}
+
+/* Hidden elements */
+.hidden {
+    display: none !important;
 }
