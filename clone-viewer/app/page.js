@@ -9,10 +9,15 @@ export default function Page() {
         <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-[#121212] tracking-tight leading-tight max-w-4xl mb-10">
           Your home for trading crypto, predictions, and more
         </h1>
-        <a href="/index.html" className="bg-[#ab9ff2] hover:bg-[#9d8ff0] text-[#121212] text-lg font-bold py-4 px-10 rounded-full flex items-center gap-3 transition-all">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Get Started
-        </a>
+        <div className="flex flex-col sm:flex-row gap-4 items-center">
+            <a href="/login" className="bg-[#ab9ff2] hover:bg-[#9d8ff0] text-[#121212] text-lg font-bold py-4 px-10 rounded-full flex items-center gap-3 transition-all">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Set up account
+            </a>
+            <a href="/login" className="bg-[#222] hover:bg-[#333] text-white border border-[#444] text-lg font-bold py-4 px-10 rounded-full flex items-center gap-3 transition-all">
+              Log in
+            </a>
+        </div>
 
         {/* Hero Background Videos (Absolute positioned behind text) */}
         <div className="absolute top-0 left-0 w-full h-full -z-10 overflow-hidden pointer-events-none opacity-50">
@@ -27,7 +32,7 @@ export default function Page() {
           <h2 className="text-4xl md:text-6xl font-bold text-[#121212] max-w-lg leading-tight">
             Trading tools for everyone
           </h2>
-          <a href="/index.html" className="text-[#ab9ff2] hover:text-white font-semibold flex items-center gap-2 transition-colors">
+          <a href="/login" className="text-[#ab9ff2] hover:text-white font-semibold flex items-center gap-2 transition-colors">
             See more
             <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
@@ -70,7 +75,7 @@ export default function Page() {
           <h2 className="text-4xl md:text-6xl font-bold text-[#121212] max-w-lg leading-tight">
             Spend, Send, & Save
           </h2>
-          <a href="/index.html" className="text-[#ab9ff2] hover:text-white font-semibold flex items-center gap-2 transition-colors">
+          <a href="/login" className="text-[#ab9ff2] hover:text-white font-semibold flex items-center gap-2 transition-colors">
             See more
             <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
@@ -102,7 +107,7 @@ export default function Page() {
           <h2 className="text-4xl md:text-6xl font-bold text-[#121212] max-w-lg leading-tight">
             Controlled by you, secured by us
           </h2>
-          <a href="/index.html" className="text-[#ab9ff2] hover:text-white font-semibold flex items-center gap-2 transition-colors">
+          <a href="/login" className="text-[#ab9ff2] hover:text-white font-semibold flex items-center gap-2 transition-colors">
             See more
             <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
@@ -138,10 +143,15 @@ export default function Page() {
         <h2 className="text-5xl md:text-7xl font-bold text-white mb-10 leading-tight">
           Get started today.
         </h2>
-        <a href="/index.html" className="inline-flex bg-[#ab9ff2] hover:bg-[#9d8ff0] text-[#121212] text-lg font-bold py-4 px-10 rounded-full items-center gap-3 transition-all">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Get Started
-        </a>
+        <div className="flex flex-col sm:flex-row gap-4 items-center">
+            <a href="/login" className="bg-[#ab9ff2] hover:bg-[#9d8ff0] text-[#121212] text-lg font-bold py-4 px-10 rounded-full flex items-center gap-3 transition-all">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Set up account
+            </a>
+            <a href="/login" className="bg-[#222] hover:bg-[#333] text-white border border-[#444] text-lg font-bold py-4 px-10 rounded-full flex items-center gap-3 transition-all">
+              Log in
+            </a>
+        </div>
       </section>
     </div>
   );
