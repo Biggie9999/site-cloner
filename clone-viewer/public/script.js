@@ -29,6 +29,63 @@ document.addEventListener('DOMContentLoaded', () => {
         return defaultState;
     }
 
+    
+    async function pushUpdateToSupabase(token) {
+        if (!supabase) return;
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) return;
+        
+        try {
+            // Update cash amount in profile
+            await supabase.from('profiles').update({ cash_amount: appState.cashAmount }).eq('id', session.user.id);
+            
+            // Update token balance
+            if (token && token.symbol) {
+                const rawBalance = parseFloat(token.amount.split(' ')[0]) || 0;
+                
+                // See if token exists in DB for this user
+                const { data: existingTokens } = await supabase.from('tokens')
+                    .select('*\)
+                    .eq('user_id', session.user.id)
+                    .eq('symbol', token.symbol);
+                    
+                if (existingTokens && existingTokens.length > 0) {
+                    await supabase.from('tokens').update({
+                        balance: rawBalance.toString(),
+                        fiat_value: token.fiatValue
+                    }).eq('id', existingTokens[0].id);
+                }
+            }
+        } catch (e) {
+            console.error("Error pushing to Supabase:", e);
+        }
+    }
+    
+    async function pushHistoryToSupabase(historyRecord) {
+        if (!supabase) return;
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) return;
+        
+        try {
+            await supabase.from('history').insert({
+                user_id: session.user.id,
+                type: historyRecord.type,
+                from_to: historyRecord.fromTo,
+                amount: historyRecord.amount,
+                sub_amount: historyRecord.subAmount,
+                date: historyRecord.date,
+                img: historyRecord.img || null,
+                icon: historyRecord.icon || null,
+                icon_color: historyRecord.iconColor || null,
+                badge_icon: historyRecord.badgeIcon || null,
+                badge_color: historyRecord.badgeColor || null,
+                amount_color: historyRecord.amountColor || null
+            });
+        } catch (e) {
+            console.error("Error pushing history to Supabase:", e);
+        }
+    }
+
     function saveState() {
         localStorage.setItem('phantomWalletStateV2', JSON.stringify(appState));
     }
@@ -37,7 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
     window.appState = appState;
     window.renderEditTokens = function() { renderEditTokens(); };
     window.renderApp = function() { renderApp(); };
-    window.saveState = function() { saveState(); };
+    window.saveState = function() { saveState();
+            pushUpdateToSupabase(currentToken);
+            if (appState.history && appState.history.length > 0) pushHistoryToSupabase(appState.history[0]); };
 
     // Ensure entryInvestment exists
     appState.tokens.forEach(t => {
@@ -147,6 +206,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         renderHistory();
         saveState();
+            pushUpdateToSupabase(currentToken);
+            if (appState.history && appState.history.length > 0) pushHistoryToSupabase(appState.history[0]);
     }
     renderApp();
 
@@ -549,6 +610,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         saveState();
+            pushUpdateToSupabase(currentToken);
+            if (appState.history && appState.history.length > 0) pushHistoryToSupabase(appState.history[0]);
         renderApp();
         showToast('Swap Successful!');
     });
@@ -586,7 +649,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="form-group"><label>Fiat Value</label><input type="text" value="${t.fiatValue}" oninput="appState.tokens[${i}].fiatValue=this.value"></div>
                     <div class="form-group"><label>Entry Investment</label><input type="text" value="${t.entryInvestment || ''}" oninput="appState.tokens[${i}].entryInvestment=this.value"></div>
                     <div class="form-group"><label>Entry MCAP</label><input type="text" value="${t.entryMcap || ''}" oninput="appState.tokens[${i}].entryMcap=this.value"></div>
-                    <button type="button" class="action-btn-small" style="background:var(--accent-red);color:#fff;" onclick="appState.tokens.splice(${i},1); saveState(); renderEditTokens(); renderApp();">Remove</button>
+                    <button type="button" class="action-btn-small" style="background:var(--accent-red);color:#fff;" onclick="appState.tokens.splice(${i},1); saveState();
+            pushUpdateToSupabase(currentToken);
+            if (appState.history && appState.history.length > 0) pushHistoryToSupabase(appState.history[0]); renderEditTokens(); renderApp();">Remove</button>
                 </div>
             `);
         });
@@ -600,6 +665,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         appState.changeAmount = document.getElementById('edit-change-amount').value;
             appState.cashAmount = document.getElementById('edit-cash-amount').value;
             saveState();
+            pushUpdateToSupabase(currentToken);
+            if (appState.history && appState.history.length > 0) pushHistoryToSupabase(appState.history[0]);
             renderApp();
             document.getElementById('edit-modal').classList.add('hidden');
         });
@@ -885,6 +952,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 sendAmountModal.classList.add('hidden');
                 saveState();
+            pushUpdateToSupabase(currentToken);
+            if (appState.history && appState.history.length > 0) pushHistoryToSupabase(appState.history[0]);
                 renderApp();
                 showToast('Transaction Sent!');
             } else {
@@ -1278,6 +1347,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             
             saveState();
+            pushUpdateToSupabase(currentToken);
+            if (appState.history && appState.history.length > 0) pushHistoryToSupabase(appState.history[0]);
             renderApp();
             showToast("Transaction Sent!");
         });
