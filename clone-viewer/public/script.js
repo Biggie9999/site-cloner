@@ -36,6 +36,75 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     
+    
+    async function loadDataFromSupabase() {
+        if (!supabase) return;
+        try {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session) return;
+            
+            // 1. Fetch Profile Data (handle, accountName, cashAmount)
+            const { data: profiles } = await supabase.from('profiles').select('*').eq('id', session.user.id);
+            if (profiles && profiles.length > 0) {
+                const p = profiles[0];
+                appState.handle = p.handle || appState.handle;
+                appState.cashAmount = p.cash_amount || appState.cashAmount;
+            }
+            
+            // 2. Fetch Tokens
+            const { data: tokens } = await supabase.from('tokens').select('*').eq('user_id', session.user.id);
+            if (tokens && tokens.length > 0) {
+                // Merge DB tokens into appState
+                tokens.forEach(dbToken => {
+                    const existingIdx = appState.tokens.findIndex(t => t.symbol === dbToken.symbol);
+                    const formattedToken = {
+                        name: dbToken.name,
+                        symbol: dbToken.symbol,
+                        amount: `${dbToken.balance} ${dbToken.symbol}`,
+                        fiatValue: dbToken.fiat_value || "$0.00",
+                        fiatChange: "+$0.00",
+                        changeType: "neutral",
+                        priceUsd: parseFloat(dbToken.price_usd) || 0,
+                        logo: dbToken.icon_url,
+                        tokenAddress: dbToken.token_address,
+                        entryInvestment: dbToken.entry_investment || "",
+                        entryMcap: dbToken.entry_mcap || ""
+                    };
+                    
+                    if (existingIdx !== -1) {
+                        appState.tokens[existingIdx] = formattedToken;
+                    } else {
+                        appState.tokens.push(formattedToken);
+                    }
+                });
+            }
+            
+            // 3. Fetch History
+            const { data: history } = await supabase.from('history').select('*').eq('user_id', session.user.id).order('created_at', { ascending: false });
+            if (history && history.length > 0) {
+                appState.history = history.map(h => ({
+                    id: h.id,
+                    type: h.type,
+                    fromTo: h.from_to,
+                    amount: h.amount,
+                    subAmount: h.sub_amount,
+                    date: h.date,
+                    img: h.img,
+                    icon: h.icon,
+                    iconColor: h.icon_color,
+                    badgeIcon: h.badge_icon,
+                    badgeColor: h.badge_color,
+                    amountColor: h.amount_color
+                }));
+            }
+            
+            saveState(); // Update localStorage cache
+            renderApp();
+        } catch(e) {
+            console.error("Error loading data from Supabase:", e);
+        }
+    }
+
     async function pushUpdateToSupabase(token) {
         if (!supabase) return;
         const { data: { session } } = await supabase.auth.getSession();
