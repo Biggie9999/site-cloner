@@ -727,6 +727,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    
+    document.querySelectorAll('#td-long-btn, #td-short-btn, #td-more-btn').forEach(btn => {
+        if(btn) {
+            btn.addEventListener('click', () => {
+                showToast('Coming Soon');
+            });
+        }
+    });
+
+    document.querySelectorAll('.tf-btn').forEach(btn => {
+        if(btn) {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active', 'text-white'));
+                document.querySelectorAll('.tf-btn').forEach(b => b.classList.add('text-gray-500'));
+                
+                e.currentTarget.classList.remove('text-gray-500');
+                e.currentTarget.classList.add('active', 'text-white');
+                
+                // Simulate chart updating
+                const chartPath = document.querySelector('.token-details-chart path');
+                if (chartPath) {
+                    chartPath.style.opacity = '0.5';
+                    setTimeout(() => {
+                        chartPath.style.opacity = '1';
+                    }, 300);
+                }
+            });
+        }
+    });
+
     document.getElementById('add-token-btn').addEventListener('click', () => {
         appState.tokens.push({ name: 'New Token', amount: '0', fiatValue: '$0.00', fiatChange: '$0.00', changeType: 'neutral', logo: '', tokenAddress: '', priceUsd: 0, entryInvestment: '', entryMcap: '' });
         renderEditTokens();
