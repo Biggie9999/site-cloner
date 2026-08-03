@@ -939,3 +939,341 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 });
+
+    const closeHistoryBtn = document.querySelector(".close-history-modal");
+    if (closeHistoryBtn) closeHistoryBtn.addEventListener("click", () => historyModal.classList.add("hidden"));
+    
+    const closeCollectiblesBtn = document.querySelector(".close-collectibles-modal");
+    if (closeCollectiblesBtn) closeCollectiblesBtn.addEventListener("click", () => collectiblesModal.classList.add("hidden"));
+    
+    const closeBrowserBtn = document.querySelector(".close-browser-modal");
+    if (closeBrowserBtn) closeBrowserBtn.addEventListener("click", () => browserModal.classList.add("hidden"));
+
+    const profileIconBtn = document.querySelector(".profile-icon");
+    if(profileIconBtn) {
+        profileIconBtn.addEventListener("click", () => sideMenuDrawer.classList.remove("hidden"));
+    }
+    
+    sideMenuDrawer.addEventListener("click", (e) => {
+        if(e.target === sideMenuDrawer) sideMenuDrawer.classList.add("hidden");
+    });
+    
+    const sideMenuItems = document.querySelectorAll(".side-menu-item");
+    sideMenuItems.forEach(item => {
+        item.addEventListener("click", () => {
+            const label = item.querySelector("span").textContent;
+            if(label === "Settings") {
+                document.getElementById("settings-modal").classList.remove("hidden");
+            } else {
+                showToast(label + " - Coming Soon");
+            }
+        });
+    });
+
+    document.getElementById("close-accounts-modal").addEventListener("click", () => accountsModal.classList.add("hidden"));
+
+    const openActionMenuBtn = document.querySelector(".open-action-menu-btn");
+    if (openActionMenuBtn) {
+        openActionMenuBtn.addEventListener("click", () => {
+            actionMenuModal.classList.remove("hidden");
+        });
+    }
+
+    const settingsModal = document.getElementById("settings-modal");
+    const openSettingsBtn = document.getElementById("open-settings-btn");
+    if(openSettingsBtn) {
+        openSettingsBtn.addEventListener("click", () => settingsModal.classList.remove("hidden"));
+    }
+    const closeSettingsBtn = document.getElementById("close-settings-modal");
+    if(closeSettingsBtn) {
+        closeSettingsBtn.addEventListener("click", () => settingsModal.classList.add("hidden"));
+    }
+
+    const receiveCopyBtn = document.getElementById("receive-copy-btn");
+    if(receiveCopyBtn) {
+        receiveCopyBtn.addEventListener("click", () => {
+            navigator.clipboard.writeText(currentReceiveAddress).then(() => {
+                showToast("Address Copied!");
+            }).catch(err => {
+                console.error("Failed to copy: ", err);
+                showToast("Address Copied!");
+            });
+        });
+    }
+
+    document.querySelectorAll(".action-grid-btn, .action-menu-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const action = btn.getAttribute("data-action");
+            if(actionMenuModal) actionMenuModal.classList.add("hidden");
+            
+            if (action === "receive" || action === "send") {
+                currentFlow = action;
+                populateSelectToken();
+                selectTokenModal.classList.remove("hidden");
+            } else if (action === "buy") { // Swap
+                currentToken = appState.tokens.find(t => t.name === "Solana");
+                if (!currentToken) { alert("You need Solana in your wallet to swap."); return; }
+                openTrading("buy");
+            } else if (action === "buy-fiat") { // Buy
+                showToast("Coming Soon");
+            }
+        });
+    });
+
+    document.querySelectorAll(".scan-qr-btn, .search-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            showToast("Coming Soon");
+        });
+    });
+
+    document.querySelectorAll(".tab-item").forEach(tab => {
+        tab.addEventListener("click", () => {
+            document.querySelectorAll(".tab-item").forEach(t => {
+                t.classList.remove("active");
+                t.style.color = "#666";
+            });
+            tab.classList.add("active");
+            tab.style.color = "var(--accent-purple)";
+            
+            historyModal.classList.add("hidden");
+            collectiblesModal.classList.add("hidden");
+            browserModal.classList.add("hidden");
+            
+            const allModals = [
+                "accounts-modal", "settings-modal", "side-menu-drawer", 
+                "receive-modal", "send-amount-modal", "fiat-onramp-modal", 
+                "token-details-modal", "edit-modal", "trading-modal"
+            ];
+            allModals.forEach(id => {
+                const modal = document.getElementById(id);
+                if (modal) modal.classList.add("hidden");
+            });
+            
+            if (tab.classList.contains("activity-tab")) {
+                historyModal.classList.remove("hidden");
+            } else if (tab.classList.contains("swap-tab")) {
+                currentToken = appState.tokens.find(t => t.name && t.name.toLowerCase() === "solana") || appState.tokens[0];
+                if (!currentToken) {
+                    alert("You need at least one token to swap.");
+                    return;
+                }
+                openTrading("buy");
+            } else if (tab.classList.contains("browser-tab")) {
+                browserModal.classList.remove("hidden");
+            } else if (tab.classList.contains("ph-squares-four") || tab.querySelector(".ph-squares-four")) {
+                collectiblesModal.classList.remove("hidden");
+            }
+        });
+    });
+
+    const browserInput = document.getElementById("browser-input");
+    const browserContent = document.getElementById("browser-content");
+    
+    if (browserInput) {
+        browserInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                let url = browserInput.value.trim();
+                if (!url) return;
+                
+                if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                    if (url.includes(".")) {
+                        url = "https://" + url;
+                    } else {
+                        url = "https://www.google.com/search?q=" + encodeURIComponent(url);
+                    }
+                }
+                
+                browserContent.innerHTML = "";
+                browserContent.style.padding = "0"; 
+                browserContent.style.background = "#fff"; 
+                
+                const iframe = document.createElement("iframe");
+                iframe.src = url;
+                iframe.style.width = "100%";
+                iframe.style.height = "100%";
+                iframe.style.border = "none";
+                
+                browserContent.appendChild(iframe);
+            }
+        });
+    }
+
+    function populateSelectToken() {
+        const list = document.getElementById("select-token-list");
+        list.innerHTML = "";
+        
+        appState.tokens.forEach(token => {
+            list.insertAdjacentHTML("beforeend", `
+                <div class="select-token-item" data-name="${token.name}" style="display: flex; align-items: center; justify-content: space-between; padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 40px; height: 40px; border-radius: 50%; overflow: hidden; background: #252525; display: flex; align-items: center; justify-content: center;">
+                            ${token.logo ? `<img src="${token.logo}" style="width:100%; height:100%; object-fit:cover;">` : `<i class="ph-fill ph-coin" style="color:var(--accent-purple); font-size:20px;"></i>`}
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <span style="color: #fff; font-weight: 600; font-size: 16px;">${token.name}</span>
+                            <span style="color: #909090; font-size: 14px;">${token.amount}</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                        <span style="color: #fff; font-weight: 600; font-size: 16px;">${token.fiatValue}</span>
+                    </div>
+                </div>
+            `);
+        });
+        
+        document.querySelectorAll(".select-token-item").forEach(item => {
+            item.addEventListener("click", () => {
+                const name = item.getAttribute("data-name");
+                const selected = appState.tokens.find(t => t.name === name);
+                currentToken = selected;
+                selectTokenModal.classList.add("hidden");
+                
+                if (currentFlow === "send") {
+                    sendAddressModal.classList.remove("hidden");
+                } else if (currentFlow === "receive") {
+                    document.getElementById("receive-title").textContent = `Receive any ${currentToken.name} token`;
+                    document.getElementById("receive-token-name").textContent = currentToken.name;
+                    document.getElementById("receive-qr-logo").src = currentToken.logo;
+                    
+                    const safeName = currentToken.name || "";
+                    const safeSymbol = currentToken.symbol || "";
+                    
+                    if (safeName.toLowerCase().includes("bitcoin") || safeSymbol.toLowerCase() === "btc") {
+                        currentReceiveAddress = "bc1qadhjl7ym27y64x6ffg3zvre3nygga3h62ny367";
+                    } else if (
+                        safeName.toLowerCase().includes("ethereum") || safeSymbol.toLowerCase() === "eth" || 
+                        safeName.toLowerCase().includes("tether") || safeSymbol.toLowerCase() === "usdt" || 
+                        safeName.toLowerCase().includes("usd") || safeSymbol.toLowerCase() === "usdc"
+                    ) {
+                        currentReceiveAddress = "0x8E1E556488d5eF7A2bEA1d2557551DBbDBf2A703";
+                    } else {
+                        currentReceiveAddress = "So11111111111111111111111111111111111111112";
+                    }
+                    
+                    const p1 = currentReceiveAddress.substring(0, 4);
+                    const p2 = currentReceiveAddress.substring(currentReceiveAddress.length - 4);
+                    document.getElementById("receive-address-display").textContent = `${p1}...${p2}`;
+                    
+                    receiveModal.classList.remove("hidden");
+                }
+            });
+        });
+    }
+
+    let currentReceiveAddress = "So11111111111111111111111111111111111111112";
+
+    const sendAddressInput = document.getElementById("send-address-input");
+    const sendAddressNextBtn = document.getElementById("send-address-next-btn");
+
+    if(sendAddressInput && sendAddressNextBtn) {
+        sendAddressInput.addEventListener("input", (e) => {
+            if(e.target.value.trim().length > 0) {
+                sendAddressNextBtn.style.opacity = "1";
+                sendAddressNextBtn.style.pointerEvents = "auto";
+            } else {
+                sendAddressNextBtn.style.opacity = "0.5";
+                sendAddressNextBtn.style.pointerEvents = "none";
+            }
+        });
+
+        sendAddressNextBtn.addEventListener("click", () => {
+            sendAddressModal.classList.add("hidden");
+            sendAmountInputValue = "0";
+            updateSendAmountDisplay();
+            
+            document.getElementById("send-amount-token-logo").src = currentToken.logo;
+            document.getElementById("send-amount-token-symbol").textContent = currentToken.name;
+            
+            const tokenAmt = parseFloat(currentToken.amount.split(" ")[0]) || 0;
+            document.getElementById("send-amount-available").textContent = `${tokenAmt.toLocaleString("en-US", {maximumFractionDigits:4})} ${currentToken.name} available`;
+            
+            sendAmountModal.classList.remove("hidden");
+        });
+    }
+
+    let sendAmountInputValue = "0";
+    const sendAmountNextBtn = document.getElementById("send-amount-next-btn");
+    
+    document.querySelectorAll(".send-key").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const key = btn.getAttribute("data-key");
+            
+            if (key === "delete") {
+                if (sendAmountInputValue.length > 1) {
+                    sendAmountInputValue = sendAmountInputValue.slice(0, -1);
+                } else {
+                    sendAmountInputValue = "0";
+                }
+            } else if (key === ".") {
+                if (!sendAmountInputValue.includes(".")) {
+                    sendAmountInputValue += ".";
+                }
+            } else {
+                if (sendAmountInputValue === "0" && key !== ".") {
+                    sendAmountInputValue = key;
+                } else {
+                    sendAmountInputValue += key;
+                }
+            }
+            updateSendAmountDisplay();
+            
+            const numAmt = parseFloat(sendAmountInputValue) || 0;
+            const tokenAmt = parseFloat(currentToken.amount.split(" ")[0]) || 0;
+            
+            if (numAmt > 0 && numAmt <= tokenAmt) {
+                sendAmountNextBtn.style.opacity = "1";
+                sendAmountNextBtn.style.pointerEvents = "auto";
+            } else {
+                sendAmountNextBtn.style.opacity = "0.5";
+                sendAmountNextBtn.style.pointerEvents = "none";
+            }
+        });
+    });
+    
+    if (sendAmountNextBtn) {
+        sendAmountNextBtn.addEventListener("click", () => {
+            sendAmountModal.classList.add("hidden");
+            const numAmt = parseFloat(sendAmountInputValue) || 0;
+            
+            const tokenAmt = parseFloat(currentToken.amount.split(" ")[0]) || 0;
+            currentToken.amount = `${(tokenAmt - numAmt).toFixed(4)} ${currentToken.name}`;
+            
+            if (currentToken.priceUsd) {
+                const newFiat = (tokenAmt - numAmt) * currentToken.priceUsd;
+                currentToken.fiatValue = formatMoney(newFiat);
+            }
+            
+            if (!appState.history) appState.history = [];
+            const fiatVal = currentToken.priceUsd ? numAmt * currentToken.priceUsd : 0;
+            appState.history.unshift({
+                id: Date.now(),
+                type: "Sent",
+                fromTo: "To " + sendAddressInput.value.substring(0,4) + "..." + sendAddressInput.value.substring(sendAddressInput.value.length-4),
+                amount: `-${numAmt.toFixed(4)} ${currentToken.name}`,
+                subAmount: formatMoney(fiatVal),
+                date: "Just now",
+                icon: "ph-arrow-up-right",
+                iconColor: "#CC0000",
+                badgeIcon: "ph-paper-plane-right",
+                badgeColor: "#0052FF",
+                amountColor: "#909090",
+                img: currentToken.logo
+            });
+            
+            saveState();
+            renderApp();
+            showToast("Transaction Sent!");
+        });
+    }
+
+    function updateSendAmountDisplay() {
+        document.getElementById("send-amount-input-display").textContent = sendAmountInputValue;
+        const numAmt = parseFloat(sendAmountInputValue) || 0;
+        if(currentToken && currentToken.priceUsd) {
+            const fiat = numAmt * currentToken.priceUsd;
+            document.getElementById("send-amount-fiat-display").textContent = `~${formatMoney(fiat)}`;
+        } else {
+            document.getElementById("send-amount-fiat-display").textContent = `~$0.00`;
+        }
+    }
+
