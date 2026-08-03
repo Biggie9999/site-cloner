@@ -351,7 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         document.getElementById('trade-logo').src = currentToken.logo;
         const actionText = action === 'buy' ? 'Buy' : 'Sell';
-        document.getElementById('trade-action-title').innerHTML = `${actionText} ${currentToken.name} <i class="ph-fill ph-seal-check" style="color: var(--accent-purple);"></i>`;
+        document.getElementById('trade-action-title').innerHTML = `${actionText} ${currentToken.symbol} <i class="ph-fill ph-seal-check" style="color: var(--accent-purple);"></i>`;
         
         const rcvIcon = document.querySelector('.trade-coin-icon');
         const rcvLabel = document.getElementById('trade-receive-label');
@@ -417,13 +417,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 availableTitle.textContent = `${formatMoney(cashAvail)} available`;
                 hasEnough = inputUsd <= cashAvail && inputUsd > 0;
                 const tokenAmt = currentToken.priceUsd ? inputUsd / currentToken.priceUsd : 0;
-                receiveAmt.innerHTML = `${tokenAmt.toLocaleString('en-US', {maximumFractionDigits:4})} ${currentToken.name} <i class="ph-bold ph-arrows-down-up" style="color: #666;"></i>`;
+                receiveAmt.innerHTML = `${tokenAmt.toLocaleString('en-US', {maximumFractionDigits:4})} ${currentToken.symbol} <i class="ph-bold ph-arrows-down-up" style="color: #666;"></i>`;
             } else {
                 const solAvailUsd = parseMoney(solToken.fiatValue);
                 availableTitle.textContent = `${formatMoney(solAvailUsd)} available in SOL`;
                 hasEnough = inputUsd <= solAvailUsd && inputUsd > 0;
                 const tokenAmt = currentToken.priceUsd ? inputUsd / currentToken.priceUsd : 0;
-                receiveAmt.innerHTML = `${tokenAmt.toLocaleString('en-US', {maximumFractionDigits:4})} ${currentToken.name} <i class="ph-bold ph-arrows-down-up" style="color: #666;"></i>`;
+                receiveAmt.innerHTML = `${tokenAmt.toLocaleString('en-US', {maximumFractionDigits:4})} ${currentToken.symbol} <i class="ph-bold ph-arrows-down-up" style="color: #666;"></i>`;
             }
         } else {
             const tokenAvailUsd = parseMoney(currentToken.fiatValue);
@@ -1188,7 +1188,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById("send-amount-token-symbol").textContent = currentToken.name;
             
             const tokenAmt = parseFloat(currentToken.amount.split(" ")[0]) || 0;
-            document.getElementById("send-amount-available").textContent = `${tokenAmt.toLocaleString("en-US", {maximumFractionDigits:4})} ${currentToken.name} available`;
+            document.getElementById("send-amount-available").textContent = `${tokenAmt.toLocaleString("en-US", {maximumFractionDigits:4})} ${currentToken.symbol} available`;
             
             sendAmountModal.classList.remove("hidden");
         });
@@ -1239,7 +1239,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const numAmt = parseFloat(sendAmountInputValue) || 0;
             
             const tokenAmt = parseFloat(currentToken.amount.split(" ")[0]) || 0;
-            currentToken.amount = `${(tokenAmt - numAmt).toFixed(4)} ${currentToken.name}`;
+            currentToken.amount = `${(tokenAmt - numAmt).toFixed(4)} ${currentToken.symbol}`;
             
             if (currentToken.priceUsd) {
                 const newFiat = (tokenAmt - numAmt) * currentToken.priceUsd;
