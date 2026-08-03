@@ -728,10 +728,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     
-    document.querySelectorAll('#td-long-btn, #td-short-btn, #td-more-btn').forEach(btn => {
+    document.querySelectorAll('#td-long-btn').forEach(btn => {
         if(btn) {
             btn.addEventListener('click', () => {
-                // feature disabled
+                if (!currentToken) return;
+                document.getElementById('token-details-modal').classList.add('hidden');
+                openTrading('buy');
+                document.querySelector('.trading-title').textContent = 'Long ' + currentToken.symbol;
+            });
+        }
+    });
+    
+    document.querySelectorAll('#td-short-btn').forEach(btn => {
+        if(btn) {
+            btn.addEventListener('click', () => {
+                if (!currentToken) return;
+                document.getElementById('token-details-modal').classList.add('hidden');
+                openTrading('sell');
+                document.querySelector('.trading-title').textContent = 'Short ' + currentToken.symbol;
             });
         }
     });
@@ -870,7 +884,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentToken = appState.tokens.find(t => t.name === 'Solana');
                 openTrading('buy');
             } else if (tab.classList.contains('browser-tab')) {
-                // feature disabled
+                document.getElementById('browser-modal').classList.remove('hidden');
             }
         });
     });
@@ -1066,9 +1080,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const label = item.querySelector("span").textContent;
             if(label === "Settings") {
                 document.getElementById("settings-modal").classList.remove("hidden");
-            } else {
-                // feature disabled
+            } else if (label === "Address Book") {
+                document.getElementById("address-book-modal").classList.remove("hidden");
+            } else if (label === "Security") {
+                document.getElementById("security-modal").classList.remove("hidden");
+            } else if (label === "Trusted Apps") {
+                document.getElementById("trusted-apps-modal").classList.remove("hidden");
+            } else if (label === "Help & Support") {
+                document.getElementById("help-modal").classList.remove("hidden");
             }
+            document.getElementById('side-menu-drawer').classList.add('hidden');
         });
     });
 
@@ -1117,14 +1138,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!currentToken) { alert("You need Solana in your wallet to swap."); return; }
                 openTrading("buy");
             } else if (action === "buy-fiat") { // Buy
-                // feature disabled
+                document.getElementById('action-menu-modal').classList.add('hidden');
+                document.getElementById('fiat-onramp-modal').classList.remove('hidden');
             }
         });
     });
 
-    document.querySelectorAll(".scan-qr-btn, .search-btn").forEach(btn => {
+    document.querySelectorAll(".scan-qr-btn").forEach(btn => {
         btn.addEventListener("click", () => {
-            // feature disabled
+            document.getElementById('qr-scanner-modal').classList.remove('hidden');
+            // Mock a scan delay and close
+            setTimeout(() => {
+                document.getElementById('qr-scanner-modal').classList.add('hidden');
+                showToast("No QR code detected");
+            }, 3000);
+        });
+    });
+    
+    document.querySelectorAll(".search-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            document.getElementById('search-modal').classList.remove('hidden');
+            const input = document.getElementById('search-input-field');
+            if(input) setTimeout(() => input.focus(), 100);
         });
     });
 
