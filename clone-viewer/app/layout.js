@@ -33,8 +33,8 @@ export default function RootLayout({ children }) {
               <button className="p-2 text-gray-500 hover:text-black hover:bg-gray-100 rounded-full transition-all">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
               </button>
-              <a href="/download" className="hidden sm:inline-flex bg-[#ab9ff2] hover:bg-[#9d8ff0] text-[#121212] font-bold py-3 px-6 rounded-full transition-all">
-                Download
+              <a href="/index.html" className="hidden sm:inline-flex bg-[#ab9ff2] hover:bg-[#9d8ff0] text-[#121212] font-bold py-3 px-6 rounded-full transition-all">
+                Get Started
               </a>
               {/* Mobile menu button */}
               <button className="lg:hidden p-2 text-gray-500 hover:text-black">
@@ -56,7 +56,7 @@ export default function RootLayout({ children }) {
             </div>
             <div className="flex flex-col gap-4">
               <span className="text-black font-semibold">Products</span>
-              <a href="#" className="hover:text-black transition-colors text-sm">Wallet</a>
+              <a href="/index.html" className="hover:text-black transition-colors text-sm">Wallet</a>
               <a href="#" className="hover:text-black transition-colors text-sm">Terminal</a>
               <a href="#" className="hover:text-black transition-colors text-sm">Explore</a>
             </div>

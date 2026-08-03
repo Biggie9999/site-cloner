@@ -333,7 +333,9 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    right: 0;
+    margin: 0 auto;
+    max-width: 400px;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(5px);
@@ -360,6 +362,10 @@ body {
     flex-direction: column;
     transform: translateY(0);
     transition: transform 0.3s ease;
+}
+
+.modal-body, .full-screen-container, .side-menu-drawer, #accounts-list, #edit-tokens-list {
+    overflow-y: auto;
 }
 
 .modal-overlay.hidden .modal-content,
@@ -492,6 +498,24 @@ body {
     opacity: 0.8;
 }
 
+.icon-btn {
+    border: none !important;
+    outline: none !important;
+    appearance: none;
+    -webkit-appearance: none;
+    box-shadow: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: #fff;
+}
+
+button {
+    border: none;
+    outline: none;
+}
+
 .trade-keypad button {
     background: transparent;
     border: none;
@@ -522,12 +546,13 @@ body {
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.full-screen-container {
+.full-screen-container, .trading-container {
     background-color: var(--bg-color);
     width: 100%;
     height: 100%;
     transform: translateY(0);
     transition: transform 0.3s ease;
+    padding-bottom: 100px !important;
 }
 
 .side-drawer-content {
@@ -587,7 +612,7 @@ body {
     top: 24px;
 }
 
-/* Hidden elements */
-.hidden {
+/* Hidden elements (non-modal) */
+.hidden:not(.modal-overlay) {
     display: none !important;
 }

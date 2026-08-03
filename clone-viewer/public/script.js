@@ -8,9 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
         changePercent: '+0.00%',
         cashAmount: '$0.00',
         tokens: [
-            { name: 'Solana', amount: '20 SOL', fiatValue: '$0.00', fiatChange: '$0.00', changeType: 'neutral', logo: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png', tokenAddress: 'So11111111111111111111111111111111111111112', entryInvestment: '', entryMcap: '', priceUsd: 0 },
-            { name: 'USDC', amount: '0 USDC', fiatValue: '$0.00', fiatChange: '$0.00', changeType: 'neutral', logo: 'https://cryptologos.cc/logos/usd-coin-usdc-logo.svg?v=029', tokenAddress: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v', entryInvestment: '', entryMcap: '', priceUsd: 1 }
-        ],
+            { name: "Solana", symbol: "SOL", amount: "0 SOL", fiatValue: "$0.00", fiatChange: "+$0.00", changeType: "positive", priceUsd: 145.20, logo: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png", tokenAddress: "" },
+            { name: "USD Coin", symbol: "USDC", amount: "0 USDC", fiatValue: "$0.00", fiatChange: "+$0.00", changeType: "neutral", priceUsd: 1, logo: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png", tokenAddress: "" },
+            { name: "Tether", symbol: "USDT", amount: "0 USDT", fiatValue: "$0.00", fiatChange: "+$0.00", changeType: "neutral", priceUsd: 1, logo: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png", tokenAddress: "" },
+            { name: "Ethereum", symbol: "ETH", amount: "0 ETH", fiatValue: "$0.00", fiatChange: "+$0.00", changeType: "positive", priceUsd: 2950.40, logo: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png", tokenAddress: "" },
+            { name: "Bitcoin", symbol: "BTC", amount: "0 BTC", fiatValue: "$0.00", fiatChange: "+$0.00", changeType: "positive", priceUsd: 63400.00, logo: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/bitcoin/info/logo.png", tokenAddress: "" }
+],
         history: [
             { id: 1, type: 'Received', fromTo: 'From 3TZp...crQ3', amount: '+16M Polyma...', date: 'Yesterday', icon: 'ph-arrow-down-left', iconColor: '#0052FF', badgeIcon: 'ph-arrow-down', badgeColor: 'var(--accent-purple)', amountColor: 'var(--accent-green)' },
             { id: 2, type: 'Swapped', fromTo: 'Unknown', amount: '+12.05M PURCH', subAmount: '-50 SOL', date: 'Jul 30, 2026', img: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png', badgeImg: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png', amountColor: 'var(--accent-green)' },
@@ -635,7 +638,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         amount: `0 ${symbol}`,
                         fiatValue: '$0.00',
                         fiatChange: '+0.00%',
-                        changeType: 'positive',
+                        changeType: Math.random() > 0.5 ? 'positive' : 'negative',
                         logo: logo,
                         tokenAddress: address,
                         priceUsd: price,

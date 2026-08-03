@@ -17,6 +17,9 @@
     <!-- Using Phosphor Icons for a clean, modern look -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <!-- TOAST NOTIFICATION -->
@@ -29,9 +32,9 @@
         
         <!-- Top Navigation -->
         <header class="top-bar" style="justify-content: space-between; align-items: center; padding: 16px 20px 8px;">
-            <div class="profile-section open-accounts-modal-btn" style="display: flex; align-items: center; gap: 12px; cursor: pointer;">
-                <div class="profile-icon" style="width: 44px; height: 44px; border-radius: 50%; background: #222; display: flex; justify-content: center; align-items: center; font-size: 24px;">🔥</div>
-                <div style="display: flex; flex-direction: column;">
+            <div class="profile-section" style="display: flex; align-items: center; gap: 12px;">
+                <div class="profile-icon open-action-menu-btn" style="width: 44px; height: 44px; border-radius: 50%; background: #222; display: flex; justify-content: center; align-items: center; font-size: 24px; cursor: pointer;">🔥</div>
+                <div class="open-accounts-modal-btn" style="display: flex; flex-direction: column; cursor: pointer;">
                     <span id="top-handle" style="color: #909090; font-size: 13px; font-weight: 500;">@DecentFlora1109</span>
                     <span class="account-selector" style="color: #fff; font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 4px;">
                         <span id="top-account-name">Account 1</span> <i class="ph-bold ph-caret-down" style="color: #909090; font-size: 14px;"></i>
@@ -39,17 +42,17 @@
                 </div>
             </div>
             <div style="display: flex; gap: 20px; color: #fff;">
-                <i class="ph-bold ph-corners-out" style="font-size: 24px; cursor: pointer;"></i>
-                <i class="ph-bold ph-magnifying-glass" style="font-size: 24px; cursor: pointer;"></i>
+                <i class="ph-bold ph-corners-out scan-qr-btn" style="font-size: 24px; cursor: pointer;"></i>
+                <i class="ph-bold ph-magnifying-glass search-btn" style="font-size: 24px; cursor: pointer;"></i>
             </div>
         </header>
 
         <!-- Main Balance -->
         <section class="main-balance" style="text-align: center; margin-top: 16px; margin-bottom: 32px; flex-direction: column; align-items: center;">
-            <h2 class="balance-amount" style="font-size: 48px; font-weight: 700; color: #fff; margin-bottom: 4px;">$2,140,301.18</h2>
+            <h2 class="balance-amount" style="font-size: 48px; font-weight: 700; color: #fff; margin-bottom: 4px;">$0.00</h2>
             <div class="balance-change" style="justify-content: center; font-size: 15px;">
-                <span class="change-amount">+$238.057</span>
-                <span class="change-percent">+0.01%</span>
+                <span class="change-amount">+$0.00</span>
+                <span class="change-percent">0.00%</span>
             </div>
         </section>
 
@@ -73,80 +76,10 @@
             </button>
         </div>
 
-        <!-- Tokens Section -->
+        <!-- Tokens List -->
         <section class="tokens-section">
-            <div class="token-list">
-                <!-- USDC -->
-                <div class="token-item">
-                    <div class="token-icon usdc">
-                        <img src="https://cryptologos.cc/logos/usd-coin-usdc-logo.svg?v=029" alt="USDC">
-                    </div>
-                    <div class="token-details">
-                        <div class="token-name-row">
-                            <span class="token-name">USDC</span>
-                            <i class="ph-fill ph-check-circle verified"></i>
-                        </div>
-                        <span class="token-amount">2,140,300.20 USDC</span>
-                    </div>
-                    <div class="token-value">
-                        <span class="fiat-value">$2,140,300.20</span>
-                        <span class="fiat-change positive">+$238.05</span>
-                    </div>
-                </div>
-
-                <!-- Solana -->
-                <div class="token-item">
-                    <div class="token-icon solana">
-                        <img src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png" alt="Solana">
-                    </div>
-                    <div class="token-details">
-                        <div class="token-name-row">
-                            <span class="token-name">Solana</span>
-                            <i class="ph-fill ph-check-circle verified"></i>
-                        </div>
-                        <span class="token-amount">0.01212 SOL</span>
-                    </div>
-                    <div class="token-value">
-                        <span class="fiat-value">$0.98</span>
-                        <span class="fiat-change positive">+$0.01</span>
-                    </div>
-                </div>
-
-                <!-- Ethereum -->
-                <div class="token-item">
-                    <div class="token-icon ethereum">
-                        <img src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png" alt="Ethereum">
-                    </div>
-                    <div class="token-details">
-                        <div class="token-name-row">
-                            <span class="token-name">Ethereum</span>
-                            <i class="ph-fill ph-check-circle verified"></i>
-                        </div>
-                        <span class="token-amount">0 ETH</span>
-                    </div>
-                    <div class="token-value">
-                        <span class="fiat-value">$0.00</span>
-                        <span class="fiat-change neutral">$0.00</span>
-                    </div>
-                </div>
-                
-                <!-- Bitcoin -->
-                <div class="token-item">
-                    <div class="token-icon bitcoin">
-                        <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.svg?v=029" alt="Bitcoin">
-                    </div>
-                    <div class="token-details">
-                        <div class="token-name-row">
-                            <span class="token-name">Bitcoin</span>
-                            <i class="ph-fill ph-check-circle verified"></i>
-                        </div>
-                        <span class="token-amount">0 BTC</span>
-                    </div>
-                    <div class="token-value">
-                        <span class="fiat-value">$0.00</span>
-                        <span class="fiat-change neutral">$0.00</span>
-                    </div>
-                </div>
+            <div id="token-list" style="display: flex; flex-direction: column; gap: 8px; padding: 0 16px;">
+                <!-- Tokens will be dynamically injected here by script.js -->
             </div>
         </section>
 
@@ -223,7 +156,7 @@
 
     
         <!-- Token Details Overlay -->
-        <div id="token-details-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); z-index: 200;">
+        <div id="token-details-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); ">
             <div class="token-details-container" style="display: flex; flex-direction: column; height: 100%; width: 100%; padding: 16px;">
                 <div class="td-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
                     <button class="icon-btn td-back-btn" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-caret-left"></i></button>
@@ -243,7 +176,20 @@
                 </div>
 
                 <div class="td-chart" style="flex: 1; min-height: 150px; margin-bottom: 24px; position: relative;">
-                    <svg viewBox="0 0 400 150" preserveAspectRatio="none" style="width: 100%; height: 100%;"><path d="M0 120 Q 20 80, 50 100 T 100 40 T 150 90 T 200 60 T 250 110 T 300 20 T 350 50 T 400 30" fill="none" stroke="var(--accent-green)" stroke-width="3" stroke-linejoin="round"/></svg>
+                    <svg viewBox="0 0 400 150" preserveAspectRatio="none" style="width: 100%; height: 100%;">
+                        <defs>
+                            <linearGradient id="chartGradientGreen" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#4ADE80" stop-opacity="0.3"/>
+                                <stop offset="100%" stop-color="#4ADE80" stop-opacity="0"/>
+                            </linearGradient>
+                            <linearGradient id="chartGradientRed" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#FF5C5C" stop-opacity="0.3"/>
+                                <stop offset="100%" stop-color="#FF5C5C" stop-opacity="0"/>
+                            </linearGradient>
+                        </defs>
+                        <path id="td-chart-fill" d="M0 100 C 20 90, 40 110, 60 100 C 80 90, 100 60, 120 70 C 140 80, 160 40, 180 50 C 200 60, 220 30, 240 40 C 260 50, 280 20, 300 30 C 320 40, 340 10, 360 20 C 380 30, 390 5, 400 15 L 400 150 L 0 150 Z" fill="url(#chartGradientGreen)" />
+                        <path id="td-chart-line" d="M0 100 C 20 90, 40 110, 60 100 C 80 90, 100 60, 120 70 C 140 80, 160 40, 180 50 C 200 60, 220 30, 240 40 C 260 50, 280 20, 300 30 C 320 40, 340 10, 360 20 C 380 30, 390 5, 400 15" fill="none" stroke="#4ADE80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                 </div>
 
                 <div class="td-timeframes" style="display: flex; justify-content: space-between; margin-bottom: 24px; padding: 0 16px;">
@@ -277,22 +223,22 @@
                 </div>
 
                 <div class="td-trade-buttons" style="display: flex; gap: 12px;">
-                    <button id="td-buy-btn" style="flex: 1; background: var(--accent-purple); color: #000; border: none; padding: 16px; border-radius: 24px; font-size: 16px; font-weight: 600; font-family: var(--font-main);">Buy</button>
+                    <button id="td-buy-btn" style="flex: 1; background: var(--accent-purple); color: #000; border: none; padding: 16px; border-radius: 24px; font-size: 16px; font-weight: 600; font-family: var(--font-main);">Swap</button>
                     <button id="td-sell-btn" style="flex: 1; background: var(--accent-purple); color: #000; border: none; padding: 16px; border-radius: 24px; font-size: 16px; font-weight: 600; font-family: var(--font-main);">Sell</button>
                 </div>
             </div>
         </div>
 
         <!-- Trading Overlay (Buy/Sell) -->
-        <div id="trading-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); z-index: 300;">
+        <div id="trading-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); ">
             <div class="trading-container" style="display: flex; flex-direction: column; height: 100%; width: 100%; padding: 16px;">
                 <div class="trade-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 48px;">
-                    <button class="icon-btn trade-back-btn" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-caret-left"></i></button>
+                    <button class="icon-btn trade-back-btn" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border: none; color: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center;"><i class="ph-bold ph-caret-left"></i></button>
                     <div class="trade-title" style="display: flex; align-items: center; gap: 8px;">
                         <img src="" id="trade-logo" alt="" style="width: 24px; height: 24px; border-radius: 50%;">
                         <span id="trade-action-title" style="font-weight: 600; font-size: 16px; color: #fff;">Sell SOL <i class="ph-fill ph-seal-check" style="color: var(--accent-purple);"></i></span>
                     </div>
-                    <button class="icon-btn trade-options-btn" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-faders"></i></button>
+                    <button class="icon-btn trade-options-btn" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border: none; color: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center;"><i class="ph-bold ph-faders"></i></button>
                 </div>
                 
                 <div class="trade-amount-section" style="display: flex; flex-direction: column; align-items: center; margin-bottom: 48px;">
@@ -322,7 +268,7 @@
             </div>
         </div>
         <!-- ACTION MENU MODAL -->
-        <div id="action-menu-modal" class="modal-overlay hidden" style="z-index: 400;">
+        <div id="action-menu-modal" class="modal-overlay hidden" style="">
             <div class="action-menu-content" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); display: flex; flex-direction: column; justify-content: flex-end; padding: 24px;">
                 <div style="display: flex; flex-direction: column; gap: 24px; align-items: flex-end; margin-bottom: 24px;">
                     <button class="action-menu-btn" data-action="send" style="background: none; border: none; display: flex; align-items: center; gap: 16px; cursor: pointer;">
@@ -352,8 +298,25 @@
             </div>
         </div>
 
+        <!-- ACCOUNTS MODAL (SIDE DRAWER) -->
+        <div id="accounts-modal" class="modal-overlay hidden" style="">
+            <div class="side-menu-drawer" style="width: 80%; max-width: 300px; height: 100%; background-color: var(--bg-color); position: absolute; left: 0; top: 0; box-shadow: 2px 0 10px rgba(0,0,0,0.5); display: flex; flex-direction: column;">
+                <div style="padding: 20px; border-bottom: 1px solid #1B1B1B; display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color: #fff; font-weight: 600; font-size: 18px;">Accounts</span>
+                    <button id="close-accounts-modal" style="background: none; border: none; cursor: pointer;"><i class="ph-bold ph-x" style="color: #fff; font-size: 20px;"></i></button>
+                </div>
+                <div id="accounts-list" style="padding: 20px; flex: 1; overflow-y: auto;">
+                    <!-- Accounts populated here -->
+                </div>
+                <div style="padding: 20px; border-top: 1px solid #1B1B1B;">
+                    <button style="width: 100%; padding: 12px; border-radius: 12px; border: none; background: rgba(255,255,255,0.05); color: #fff; font-weight: 600; cursor: pointer;">Add / Connect Wallet</button>
+                </div>
+            </div>
+            <div id="accounts-overlay-bg" style="width: 20%; height: 100%; position: absolute; right: 0; top: 0;"></div>
+        </div>
+
         <!-- SELECT TOKEN MODAL -->
-        <div id="select-token-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); z-index: 500;">
+        <div id="select-token-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); ">
             <div class="full-screen-container" style="display: flex; flex-direction: column; height: 100%; width: 100%; padding: 16px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
                     <button class="icon-btn close-select-token" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-x"></i></button>
@@ -374,7 +337,7 @@
         </div>
 
         <!-- SEND ADDRESS MODAL -->
-        <div id="send-address-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); z-index: 600;">
+        <div id="send-address-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); ">
             <div class="full-screen-container" style="display: flex; flex-direction: column; height: 100%; width: 100%; padding: 16px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
                     <button class="icon-btn close-send-address" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-caret-left"></i></button>
@@ -413,7 +376,7 @@
         </div>
 
         <!-- SEND AMOUNT MODAL -->
-        <div id="send-amount-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); z-index: 700;">
+        <div id="send-amount-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); ">
             <div class="full-screen-container" style="display: flex; flex-direction: column; height: 100%; width: 100%; padding: 16px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
                     <button class="icon-btn close-send-amount" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-caret-left"></i></button>
@@ -452,7 +415,7 @@
         </div>
 
         <!-- RECEIVE MODAL -->
-        <div id="receive-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); z-index: 500;">
+        <div id="receive-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); ">
             <div class="full-screen-container" style="display: flex; flex-direction: column; height: 100%; width: 100%; padding: 16px;">
                 <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 48px;">
                     <button class="icon-btn close-receive" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-x"></i></button>
@@ -464,7 +427,7 @@
                 
                 <div style="display: flex; justify-content: center; margin-bottom: 32px;">
                     <div style="background: #1B1B1B; padding: 24px; border-radius: 24px; position: relative;">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=DpuYzBbJ3jD5...ShjG7e&bgcolor=1B1B1B&color=FFFFFF" alt="QR Code" style="width: 250px; height: 250px; border-radius: 8px;">
+                        <img id="receive-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=7PDyh2kpvK34fpjqQNQPg9ZA9kMcoqv8ef4oXgmneN3C&bgcolor=1B1B1B&color=FFFFFF" alt="QR Code" style="width: 250px; height: 250px; border-radius: 8px;">
                         <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 64px; height: 64px; background: #1B1B1B; border-radius: 12px; display: flex; justify-content: center; align-items: center;">
                             <img id="receive-qr-logo" src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png" style="width: 40px; height: 40px; border-radius: 50%;">
                         </div>
@@ -474,7 +437,7 @@
                 <div style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: auto;">
                     <span id="receive-token-name" style="color: #fff; font-weight: 600; font-size: 16px;">Solana</span>
                     <span style="color: #909090;">•</span>
-                    <span style="color: #909090; font-size: 16px;">DpuYzB...ShjG7e</span>
+                    <span id="receive-address-display" style="color: #909090; font-size: 16px;">7PDyh2...gmneN3C</span>
                 </div>
 
                 <div style="display: flex; gap: 16px; margin-bottom: 16px;">
@@ -485,7 +448,7 @@
         </div>
 
         <!-- SIDE MENU DRAWER -->
-        <div id="side-menu-drawer" class="modal-overlay hidden" style="z-index: 1000;">
+        <div id="side-menu-drawer" class="modal-overlay hidden" style="">
             <div class="side-drawer-content" style="width: 85%; height: 100%; position: absolute; top: 0; left: 0; background: #000; display: flex; flex-direction: column; padding: 24px; padding-top: 48px;">
                 <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
                     <div style="width: 56px; height: 56px; border-radius: 50%; background: #222; display: flex; justify-content: center; align-items: center; font-size: 32px;">🔥</div>
@@ -519,7 +482,7 @@
         </div>
 
         <!-- HISTORY MODAL -->
-        <div id="history-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); z-index: 600;">
+        <div id="history-modal" class="modal-overlay hidden" style="background-color: var(--bg-color);  padding-bottom: 70px;">
             <div class="full-screen-container" style="display: flex; flex-direction: column; height: 100%; width: 100%; padding: 16px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
                     <button class="icon-btn close-history-modal" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-x"></i></button>
@@ -533,8 +496,42 @@
             </div>
         </div>
 
+        <!-- COLLECTIBLES MODAL -->
+        <div id="collectibles-modal" class="modal-overlay hidden" style="background-color: var(--bg-color);  padding-bottom: 70px;">
+            <div class="full-screen-container" style="display: flex; flex-direction: column; height: 100%; width: 100%; padding: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <button class="icon-btn close-collectibles-modal" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-x"></i></button>
+                    <span style="font-weight: 600; font-size: 16px; color: #fff;">Collectibles</span>
+                    <button class="icon-btn" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-plus"></i></button>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 60%; width: 100%; color: #909090; gap: 16px;">
+                    <i class="ph-bold ph-ghost" style="font-size: 48px; opacity: 0.5;"></i>
+                    <div style="font-size: 16px; font-weight: 500;">No Collectibles found</div>
+                    <div style="font-size: 14px; text-align: center; max-width: 250px;">You don't have any NFTs or collectibles in this wallet yet.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BROWSER MODAL -->
+        <div id="browser-modal" class="modal-overlay hidden" style="background-color: var(--bg-color);  padding-bottom: 70px;">
+            <div class="full-screen-container" style="display: flex; flex-direction: column; height: 100%; width: 100%; padding: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <button class="icon-btn close-browser-modal" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-x"></i></button>
+                    <span style="font-weight: 600; font-size: 16px; color: #fff;">Browser</span>
+                    <div style="width: 40px;"></div>
+                </div>
+                <div style="background: #1B1B1B; border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+                    <i class="ph-bold ph-magnifying-glass" style="color: #666; font-size: 18px;"></i>
+                    <input id="browser-input" type="text" placeholder="Search or type URL (e.g. google.com)" style="background: transparent; border: none; color: #fff; width: 100%; outline: none;">
+                </div>
+                <div id="browser-content" style="display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; padding-bottom: 20px; color: #909090; width: 100%; overflow: hidden; border-radius: 12px;">
+                    <p>Explore dApps on Solana, Ethereum, and Polygon.</p>
+                </div>
+            </div>
+        </div>
+
         <!-- SETTINGS MODAL -->
-        <div id="settings-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); z-index: 1500;">
+        <div id="settings-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); ">
             <div class="full-screen-container" style="display: flex; flex-direction: column; height: 100%; width: 100%; padding: 16px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
                     <button class="icon-btn close-settings-modal" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-x"></i></button>
@@ -587,7 +584,7 @@
         </div>
 
         <!-- ACCOUNTS MODAL -->
-        <div id="accounts-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); z-index: 1500;">
+        <div id="accounts-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); ">
             <div class="full-screen-container" style="display: flex; flex-direction: column; height: 100%; width: 100%; padding: 16px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
                     <button class="icon-btn close-accounts-modal" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-x"></i></button>
@@ -669,7 +666,7 @@
         </div>
 
         <!-- FIAT ON-RAMP MODAL -->
-        <div id="fiat-onramp-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); z-index: 700;">
+        <div id="fiat-onramp-modal" class="modal-overlay hidden" style="background-color: var(--bg-color); ">
             <div class="full-screen-container" style="display: flex; flex-direction: column; height: 100%; width: 100%; padding: 16px; padding-top: 48px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
                     <button class="icon-btn close-fiat-modal" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;"><i class="ph-bold ph-x"></i></button>

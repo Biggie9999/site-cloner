@@ -9,9 +9,9 @@ export default function Page() {
         <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-[#121212] tracking-tight leading-tight max-w-4xl mb-10">
           Your home for trading crypto, predictions, and more
         </h1>
-        <a href="/download" className="bg-[#ab9ff2] hover:bg-[#9d8ff0] text-[#121212] text-lg font-bold py-4 px-10 rounded-full flex items-center gap-3 transition-all">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M10 19H14M9 22H15C16.6569 22 18 20.6569 18 19V5C18 3.34315 16.6569 2 15 2H9C7.34315 2 6 3.34315 6 5V19C6 20.6569 7.34315 22 9 22Z"/></svg>
-          Download Phantom
+        <a href="/index.html" className="bg-[#ab9ff2] hover:bg-[#9d8ff0] text-[#121212] text-lg font-bold py-4 px-10 rounded-full flex items-center gap-3 transition-all">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Get Started
         </a>
 
         {/* Hero Background Videos (Absolute positioned behind text) */}
@@ -27,7 +27,7 @@ export default function Page() {
           <h2 className="text-4xl md:text-6xl font-bold text-[#121212] max-w-lg leading-tight">
             Trading tools for everyone
           </h2>
-          <a href="/trade" className="text-[#ab9ff2] hover:text-white font-semibold flex items-center gap-2 transition-colors">
+          <a href="/index.html" className="text-[#ab9ff2] hover:text-white font-semibold flex items-center gap-2 transition-colors">
             See more
             <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
@@ -70,7 +70,7 @@ export default function Page() {
           <h2 className="text-4xl md:text-6xl font-bold text-[#121212] max-w-lg leading-tight">
             Spend, Send, & Save
           </h2>
-          <a href="/cash" className="text-[#ab9ff2] hover:text-white font-semibold flex items-center gap-2 transition-colors">
+          <a href="/index.html" className="text-[#ab9ff2] hover:text-white font-semibold flex items-center gap-2 transition-colors">
             See more
             <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
@@ -102,7 +102,7 @@ export default function Page() {
           <h2 className="text-4xl md:text-6xl font-bold text-[#121212] max-w-lg leading-tight">
             Controlled by you, secured by us
           </h2>
-          <a href="/security" className="text-[#ab9ff2] hover:text-white font-semibold flex items-center gap-2 transition-colors">
+          <a href="/index.html" className="text-[#ab9ff2] hover:text-white font-semibold flex items-center gap-2 transition-colors">
             See more
             <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
@@ -135,12 +135,12 @@ export default function Page() {
       {/* CTA SECTION */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center">
         <h3 className="text-[#ab9ff2] font-semibold mb-6">Trusted by a community of 20+ million users. It’s more than a wallet.</h3>
-        <h2 className="text-5xl md:text-7xl font-bold text-[#121212] mb-10 leading-tight">
-          Get started.<br/>Download Phantom.
+        <h2 className="text-5xl md:text-7xl font-bold text-white mb-10 leading-tight">
+          Get started today.
         </h2>
-        <a href="/download" className="inline-flex bg-[#ab9ff2] hover:bg-[#9d8ff0] text-[#121212] text-lg font-bold py-4 px-10 rounded-full items-center gap-3 transition-all">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M10 19H14M9 22H15C16.6569 22 18 20.6569 18 19V5C18 3.34315 16.6569 2 15 2H9C7.34315 2 6 3.34315 6 5V19C6 20.6569 7.34315 22 9 22Z"/></svg>
-          Download Phantom
+        <a href="/index.html" className="inline-flex bg-[#ab9ff2] hover:bg-[#9d8ff0] text-[#121212] text-lg font-bold py-4 px-10 rounded-full items-center gap-3 transition-all">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Get Started
         </a>
       </section>
     </div>
