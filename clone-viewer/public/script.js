@@ -212,14 +212,54 @@ document.addEventListener('DOMContentLoaded', () => {
     renderApp();
 
     function renderHistory() {
-        const historyContainer = document.getElementById('history-list-container');
-        if(!historyContainer) return;
-        historyContainer.innerHTML = '';
+        const historyList = document.getElementById("history-list");
+        if (!historyList) return;
+        historyList.innerHTML = "";
         
-        if(!appState.history || appState.history.length === 0) {
-            historyContainer.innerHTML = '<div style="color:#909090; text-align:center; margin-top:24px;">No transactions yet</div>';
+        if (!appState.history || appState.history.length === 0) {
+            historyList.innerHTML = `<div style="text-align:center; color:#909090; margin-top:40px;">No transaction history.</div>`;
             return;
         }
+
+        appState.history.forEach(item => {
+            let iconHtml = '';
+            if (item.img) {
+                iconHtml = `<img src="${item.img}" style="width: 24px; height: 24px; border-radius: 50%;" />`;
+            } else if (item.icon) {
+                iconHtml = `<i class="ph-bold ${item.icon}" style="color: ${item.iconColor || '#fff'}; font-size: 20px;"></i>`;
+            }
+
+            let badgeHtml = '';
+            if (item.badgeImg) {
+                badgeHtml = `<div style="position: absolute; bottom: -2px; right: -2px; width: 16px; height: 16px; background: #1B1B1B; border-radius: 50%; display: flex; justify-content: center; align-items: center;"><img src="${item.badgeImg}" style="width: 12px; height: 12px; border-radius: 50%;" /></div>`;
+            } else if (item.badgeIcon) {
+                badgeHtml = `<div style="position: absolute; bottom: -2px; right: -2px; width: 16px; height: 16px; background: #1B1B1B; border-radius: 50%; display: flex; justify-content: center; align-items: center;"><i class="ph-fill ${item.badgeIcon}" style="color: ${item.badgeColor || '#fff'}; font-size: 10px;"></i></div>`;
+            }
+
+            const itemEl = document.createElement("div");
+            itemEl.style.cssText = "background: #1B1B1B; border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer;";
+            
+            let amountSubHtml = item.subAmount ? `<span style="color: #909090; font-size: 14px;">${item.subAmount}</span>` : '';
+
+            itemEl.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="width: 44px; height: 44px; border-radius: 50%; background: #222; display: flex; justify-content: center; align-items: center; position: relative;">
+                        ${iconHtml}
+                        ${badgeHtml}
+                    </div>
+                    <div style="display: flex; flex-direction: column;">
+                        <span style="color: #fff; font-weight: 600; font-size: 16px;">${item.type}</span>
+                        <span style="color: #909090; font-size: 14px;">${item.fromTo}</span>
+                    </div>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                    <span style="color: ${item.amountColor || '#fff'}; font-weight: 600; font-size: 16px;">${item.amount}</span>
+                    <span style="color: #909090; font-size: 14px;">${item.date}</span>
+                </div>
+            `;
+            historyList.appendChild(itemEl);
+        });
+    }
 
         const groups = {};
         appState.history.forEach(tx => {
