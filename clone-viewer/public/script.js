@@ -731,7 +731,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('#td-long-btn, #td-short-btn, #td-more-btn').forEach(btn => {
         if(btn) {
             btn.addEventListener('click', () => {
-                showToast('Coming Soon');
+                // feature disabled
             });
         }
     });
@@ -870,7 +870,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentToken = appState.tokens.find(t => t.name === 'Solana');
                 openTrading('buy');
             } else if (tab.classList.contains('browser-tab')) {
-                showToast('Browser coming soon!');
+                // feature disabled
             }
         });
     });
@@ -1067,7 +1067,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if(label === "Settings") {
                 document.getElementById("settings-modal").classList.remove("hidden");
             } else {
-                showToast(label + " - Coming Soon");
+                // feature disabled
             }
         });
     });
@@ -1117,14 +1117,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!currentToken) { alert("You need Solana in your wallet to swap."); return; }
                 openTrading("buy");
             } else if (action === "buy-fiat") { // Buy
-                showToast("Coming Soon");
+                // feature disabled
             }
         });
     });
 
     document.querySelectorAll(".scan-qr-btn, .search-btn").forEach(btn => {
         btn.addEventListener("click", () => {
-            showToast("Coming Soon");
+            // feature disabled
         });
     });
 
