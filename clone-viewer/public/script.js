@@ -1238,8 +1238,22 @@ document.addEventListener('DOMContentLoaded', () => {
             sendAmountModal.classList.add("hidden");
             const numAmt = parseFloat(sendAmountInputValue) || 0;
             
+            
             const tokenAmt = parseFloat(currentToken.amount.split(" ")[0]) || 0;
+            
+            // Fix "reverse back" bug: if token amount is driven by entryInvestment, we must proportionally reduce it!
+            if (currentToken.entryInvestment && currentToken.entryMcap) {
+                const currentInv = parseFloat(currentToken.entryInvestment);
+                const pctToSend = numAmt / tokenAmt;
+                if (pctToSend >= 1) {
+                    currentToken.entryInvestment = "0";
+                } else {
+                    currentToken.entryInvestment = (currentInv - (currentInv * pctToSend)).toString();
+                }
+            }
+            
             currentToken.amount = `${(tokenAmt - numAmt).toFixed(4)} ${currentToken.symbol}`;
+
             
             if (currentToken.priceUsd) {
                 const newFiat = (tokenAmt - numAmt) * currentToken.priceUsd;
