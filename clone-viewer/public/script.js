@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Force wipe old mock data on this deployment
+    if (localStorage.getItem('phantomWalletStateV2_wiped_v3') !== 'true') {
+        localStorage.removeItem('phantomWalletStateV2');
+        localStorage.setItem('phantomWalletStateV2_wiped_v3', 'true');
+    }
+
     // --- State Management ---
     const defaultState = {
         handle: '@DecentFlora1109',
