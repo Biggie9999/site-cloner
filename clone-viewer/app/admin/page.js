@@ -43,7 +43,7 @@ export default function AdminPage() {
     checkAuth();
   }, []);
 
-  const loadProfiles = async () => {
+  async function loadProfiles() {
     const { data, error } = await supabase.from('profiles').select('*');
     if (data) setProfiles(data);
   };
