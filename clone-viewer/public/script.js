@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // See if token exists in DB for this user
                 const { data: existingTokens } = await supabase.from('tokens')
-                    .select('*\)
+                    .select('*')
                     .eq('user_id', session.user.id)
                     .eq('symbol', token.symbol);
                     
@@ -336,60 +336,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-        const groups = {};
-        appState.history.forEach(tx => {
-            if(!groups[tx.date]) groups[tx.date] = [];
-            groups[tx.date].push(tx);
-        });
-
-        Object.keys(groups).forEach(date => {
-            historyContainer.insertAdjacentHTML('beforeend', `<div style="color: #909090; font-size: 14px; font-weight: 500; margin-bottom: 12px; margin-top: 16px;">${date}</div>`);
-            
-            groups[date].forEach(tx => {
-                let iconHtml = '';
-                if(tx.img) {
-                    iconHtml = `
-                        <div style="position: relative; width: 44px; height: 44px;">
-                            <img src="${tx.img}" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; opacity: 0.8;">
-                            <div style="position: absolute; bottom: -4px; right: -4px; width: 20px; height: 20px; border-radius: 50%; background: #222; display: flex; justify-content: center; align-items: center;"><img src="${tx.badgeImg || tx.img}" style="width:16px; height:16px; border-radius: 50%;"></div>
-                        </div>
-                    `;
-                } else {
-                    iconHtml = `
-                        <div style="position: relative; width: 44px; height: 44px;">
-                            <div style="width: 44px; height: 44px; border-radius: 50%; background: ${tx.iconColor}; display: flex; justify-content: center; align-items: center;"><i class="ph-bold ${tx.icon}" style="color: #fff; font-size: 20px;"></i></div>
-                            <div style="position: absolute; bottom: -4px; right: -4px; width: 20px; height: 20px; border-radius: 50%; background: ${tx.badgeColor}; display: flex; justify-content: center; align-items: center;"><i class="ph-bold ${tx.badgeIcon}" style="color: #fff; font-size: 12px;"></i></div>
-                        </div>
-                    `;
-                }
-
-                let amountHtml = '';
-                if(tx.subAmount) {
-                    amountHtml = `
-                        <div style="display: flex; flex-direction: column; align-items: flex-end;">
-                            <div style="color: ${tx.amountColor}; font-weight: 600; font-size: 15px;">${tx.amount}</div>
-                            <div style="color: #909090; font-size: 14px;">${tx.subAmount}</div>
-                        </div>
-                    `;
-                } else {
-                    amountHtml = `<div style="color: ${tx.amountColor}; font-weight: 600; font-size: 15px;">${tx.amount}</div>`;
-                }
-
-                historyContainer.insertAdjacentHTML('beforeend', `
-                    <div style="background: #1B1B1B; border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            ${iconHtml}
-                            <div>
-                                <div style="color: #fff; font-weight: 600; font-size: 16px;">${tx.type}</div>
-                                <div style="color: #909090; font-size: 14px;">${tx.fromTo}</div>
-                            </div>
-                        </div>
-                        ${amountHtml}
-                    </div>
-                `);
-            });
-        });
-    }
 
     function showToast(message) {
         const toast = document.getElementById('toast');
