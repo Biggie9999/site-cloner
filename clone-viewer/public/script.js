@@ -380,7 +380,7 @@ document?.addEventListener('DOMContentLoaded', () => {
                 dexData = await response.json();
             }
             
-            const cgResponse = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=solana,usd-coin&vs_currencies=usd&include_24hr_change=true`);
+            const cgResponse = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=solana,usd-coin,tether,ethereum,bitcoin&vs_currencies=usd&include_24hr_change=true`);
             const cgData = await cgResponse.json();
 
             let totalCurrentDynamicValue = 0;
@@ -399,6 +399,18 @@ document?.addEventListener('DOMContentLoaded', () => {
                 } else if (token.name === 'USDC' && cgData['usd-coin']) {
                     currentPrice = cgData['usd-coin'].usd;
                     change24h = cgData['usd-coin'].usd_24h_change || 0;
+                    foundUpdate = true;
+                } else if (token.name === 'Tether' && cgData.tether) {
+                    currentPrice = cgData.tether.usd;
+                    change24h = cgData.tether.usd_24h_change || 0;
+                    foundUpdate = true;
+                } else if (token.name === 'Ethereum' && cgData.ethereum) {
+                    currentPrice = cgData.ethereum.usd;
+                    change24h = cgData.ethereum.usd_24h_change || 0;
+                    foundUpdate = true;
+                } else if (token.name === 'Bitcoin' && cgData.bitcoin) {
+                    currentPrice = cgData.bitcoin.usd;
+                    change24h = cgData.bitcoin.usd_24h_change || 0;
                     foundUpdate = true;
                 } else if (dexData && dexData.pairs) {
                     const pair = dexData.pairs.find(p => p.baseToken.address === token.tokenAddress);
