@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+document?.addEventListener('DOMContentLoaded', () => {
     // Force wipe old mock data on this deployment
     if (localStorage.getItem('phantomWalletStateV2_wiped_v3') !== 'true') {
         localStorage.removeItem('phantomWalletStateV2');
@@ -274,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         document.querySelectorAll('.token-item').forEach(item => {
-            item.addEventListener('click', () => {
+            item?.addEventListener('click', () => {
                 const name = item.getAttribute('data-name');
                 const t = appState.tokens.find(tk => tk.name === name);
                 if (t) openTokenDetails(t);
@@ -460,14 +460,14 @@ document.addEventListener('DOMContentLoaded', () => {
         tokenDetailsModal.classList.remove('hidden');
     }
 
-    document.querySelector('.td-back-btn').addEventListener('click', () => {
+    document.querySelector('.td-back-btn')?.addEventListener('click', () => {
         tokenDetailsModal.classList.add('hidden');
         currentToken = null;
     });
 
     // Trade Buttons
-    document.getElementById('td-buy-btn').addEventListener('click', () => openTrading('buy'));
-    document.getElementById('td-sell-btn').addEventListener('click', () => openTrading('sell'));
+    document.getElementById('td-buy-btn')?.addEventListener('click', () => openTrading('buy'));
+    document.getElementById('td-sell-btn')?.addEventListener('click', () => openTrading('sell'));
 
     function openTrading(action) {
         currentTradeAction = action;
@@ -495,7 +495,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tradingModal.classList.remove('hidden');
     }
 
-    document.querySelector('.trade-back-btn').addEventListener('click', () => {
+    document.querySelector('.trade-back-btn')?.addEventListener('click', () => {
         tradingModal.classList.add('hidden');
     });
 
@@ -508,7 +508,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(k==='DEL') btn.innerHTML = '<i class="ph-bold ph-caret-left"></i>';
         else btn.textContent = k;
         
-        btn.addEventListener('click', () => {
+        btn?.addEventListener('click', () => {
             if(k === 'DEL') {
                 tradeInputValue = tradeInputValue.slice(0, -1);
                 if(tradeInputValue === "") tradeInputValue = "0";
@@ -567,7 +567,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.querySelectorAll('.pct-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn?.addEventListener('click', () => {
             const pct = parseFloat(btn.getAttribute('data-pct'));
             let maxUsd = 0;
             if (currentTradeAction === 'buy') {
@@ -580,7 +580,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    document.getElementById('trade-confirm-btn').addEventListener('click', () => {
+    document.getElementById('trade-confirm-btn')?.addEventListener('click', () => {
         const confirmBtn = document.getElementById('trade-confirm-btn');
         if (!confirmBtn.classList.contains('enabled')) return;
         
@@ -689,7 +689,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fetchStatus = document.getElementById('fetch-status');
     const editTokensList = document.getElementById('edit-tokens-list');
     
-    document.getElementById('explore-btn').addEventListener('click', () => {
+    document.getElementById('explore-btn')?.addEventListener('click', () => {
         document.getElementById('edit-handle').value = appState.handle;
         document.getElementById('edit-account-name').value = appState.accountName;
                 document.getElementById('edit-change-amount').value = appState.changeAmount;
@@ -698,7 +698,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('edit-modal').classList.remove('hidden');
     });
 
-    document.getElementById('close-modal-btn').addEventListener('click', () => {
+    document.getElementById('close-modal-btn')?.addEventListener('click', () => {
         document.getElementById('edit-modal').classList.add('hidden');
     });
 
@@ -722,7 +722,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if(editForm) {
-        editForm.addEventListener('submit', (e) => {
+        editForm?.addEventListener('submit', (e) => {
             e.preventDefault();
             appState.handle = document.getElementById('edit-handle').value;
             appState.accountName = document.getElementById('edit-account-name').value;
@@ -737,7 +737,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if(fetchTokenBtn) {
-        fetchTokenBtn.addEventListener('click', async () => {
+        fetchTokenBtn?.addEventListener('click', async () => {
             const address = dexscreenerAddressInput.value.trim();
             const invVal = entryInvestmentInput ? parseFloat(entryInvestmentInput.value) : 0;
             const mcVal = entryMcapInput ? parseFloat(entryMcapInput.value) : 0;
@@ -794,7 +794,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     document.querySelectorAll('#td-long-btn').forEach(btn => {
         if(btn) {
-            btn.addEventListener('click', () => {
+            btn?.addEventListener('click', () => {
                 if (!currentToken) return;
                 document.getElementById('token-details-modal').classList.add('hidden');
                 openTrading('buy');
@@ -805,7 +805,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     document.querySelectorAll('#td-short-btn').forEach(btn => {
         if(btn) {
-            btn.addEventListener('click', () => {
+            btn?.addEventListener('click', () => {
                 if (!currentToken) return;
                 document.getElementById('token-details-modal').classList.add('hidden');
                 openTrading('sell');
@@ -816,7 +816,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.tf-btn').forEach(btn => {
         if(btn) {
-            btn.addEventListener('click', (e) => {
+            btn?.addEventListener('click', (e) => {
                 document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active', 'text-white'));
                 document.querySelectorAll('.tf-btn').forEach(b => b.classList.add('text-gray-500'));
                 
@@ -835,7 +835,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    document.getElementById('add-token-btn').addEventListener('click', () => {
+    document.getElementById('add-token-btn')?.addEventListener('click', () => {
         appState.tokens.push({ name: 'New Token', amount: '0', fiatValue: '$0.00', fiatChange: '$0.00', changeType: 'neutral', logo: '', tokenAddress: '', priceUsd: 0, entryInvestment: '', entryMcap: '' });
         renderEditTokens();
     });
@@ -856,66 +856,66 @@ document.addEventListener('DOMContentLoaded', () => {
     // Bottom Nav Plus Button
     const addBtn = document.querySelector('.add-btn');
     if(addBtn) {
-        addBtn.addEventListener('click', () => {
+        addBtn?.addEventListener('click', () => {
             actionMenuModal.classList.remove('hidden');
         });
     }
 
     // Close buttons
-    document.getElementById('close-action-menu').addEventListener('click', () => actionMenuModal.classList.add('hidden'));
-    document.querySelector('.close-select-token').addEventListener('click', () => selectTokenModal.classList.add('hidden'));
-    document.querySelector('.close-send-address').addEventListener('click', () => sendAddressModal.classList.add('hidden'));
-    document.querySelector('.close-send-amount').addEventListener('click', () => sendAmountModal.classList.add('hidden'));
-    document.querySelector('.close-receive').addEventListener('click', () => receiveModal.classList.add('hidden'));
+    document.getElementById('close-action-menu')?.addEventListener('click', () => actionMenuModal.classList.add('hidden'));
+    document.querySelector('.close-select-token')?.addEventListener('click', () => selectTokenModal.classList.add('hidden'));
+    document.querySelector('.close-send-address')?.addEventListener('click', () => sendAddressModal.classList.add('hidden'));
+    document.querySelector('.close-send-amount')?.addEventListener('click', () => sendAmountModal.classList.add('hidden'));
+    document.querySelector('.close-receive')?.addEventListener('click', () => receiveModal.classList.add('hidden'));
 
     // Side Menu, History, Accounts logic
     const profileIconBtn = document.querySelector('.profile-icon');
     if(profileIconBtn) {
-        profileIconBtn.addEventListener('click', () => sideMenuDrawer.classList.remove('hidden'));
+        profileIconBtn?.addEventListener('click', () => sideMenuDrawer.classList.remove('hidden'));
     }
     
     // Close side menu if clicked outside content
-    sideMenuDrawer.addEventListener('click', (e) => {
+    sideMenuDrawer?.addEventListener('click', (e) => {
         if(e.target === sideMenuDrawer) sideMenuDrawer.classList.add('hidden');
     });
 
-    document.getElementById('open-history-btn').addEventListener('click', () => {
+    document.getElementById('open-history-btn')?.addEventListener('click', () => {
         sideMenuDrawer.classList.add('hidden');
         historyModal.classList.remove('hidden');
     });
     
-    document.querySelector('.close-history-modal').addEventListener('click', () => historyModal.classList.add('hidden'));
+    document.querySelector('.close-history-modal')?.addEventListener('click', () => historyModal.classList.add('hidden'));
 
     const openAccountsBtns = document.querySelectorAll('.account-selector, .open-accounts-modal-btn');
     openAccountsBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn?.addEventListener('click', () => {
             sideMenuDrawer.classList.add('hidden');
             accountsModal.classList.remove('hidden');
         });
     });
 
-    document.querySelector('.close-accounts-modal').addEventListener('click', () => accountsModal.classList.add('hidden'));
+    document.querySelector('.close-accounts-modal')?.addEventListener('click', () => accountsModal.classList.add('hidden'));
 
     const settingsModal = document.getElementById('settings-modal');
     const openSettingsBtn = document.getElementById('open-settings-btn');
     if(openSettingsBtn) {
-        openSettingsBtn.addEventListener('click', () => {
+        openSettingsBtn?.addEventListener('click', () => {
             sideMenuDrawer.classList.add('hidden');
             settingsModal.classList.remove('hidden');
         });
     }
-    document.querySelector('.close-settings-modal').addEventListener('click', () => settingsModal.classList.add('hidden'));
+    document.querySelector('.close-settings-modal')?.addEventListener('click', () => settingsModal.classList.add('hidden'));
 
     const receiveCopyBtn = document.getElementById('receive-copy-btn');
     if(receiveCopyBtn) {
-        receiveCopyBtn.addEventListener('click', () => {
+        receiveCopyBtn?.addEventListener('click', () => {
             showToast('Address Copied!');
         });
     }
 
     // Action Grid Buttons
     document.querySelectorAll('.action-grid-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn?.addEventListener('click', () => {
             const action = btn.getAttribute('data-action');
             if (action === 'receive' || action === 'send') {
                 currentFlow = action;
@@ -932,7 +932,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Bottom Tabs
     document.querySelectorAll('.tab-item').forEach(tab => {
-        tab.addEventListener('click', () => {
+        tab?.addEventListener('click', () => {
             // Reset colors
             document.querySelectorAll('.tab-item').forEach(t => {
                 t.classList.remove('active');
@@ -974,7 +974,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         document.querySelectorAll('.select-token-item').forEach(item => {
-            item.addEventListener('click', () => {
+            item?.addEventListener('click', () => {
                 const name = item.getAttribute('data-name');
                 const selected = appState.tokens.find(t => t.name === name);
                 currentToken = selected;
@@ -995,10 +995,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fiat On-Ramp Logic
     const fiatOnrampModal = document.getElementById('fiat-onramp-modal');
-    document.querySelector('.close-fiat-modal').addEventListener('click', () => fiatOnrampModal.classList.add('hidden'));
+    document.querySelector('.close-fiat-modal')?.addEventListener('click', () => fiatOnrampModal.classList.add('hidden'));
     
     document.querySelectorAll('.fiat-provider-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn?.addEventListener('click', () => {
             fiatOnrampModal.classList.add('hidden');
             showToast('Redirecting to provider...');
         });
@@ -1008,7 +1008,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendAddressNext = document.getElementById('send-address-next');
     const sendAddressInput = document.getElementById('send-address-input');
     
-    sendAddressInput.addEventListener('input', () => {
+    sendAddressInput?.addEventListener('input', () => {
         if(sendAddressInput.value.length > 0) {
             sendAddressNext.style.color = 'var(--accent-purple)';
         } else {
@@ -1016,7 +1016,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    sendAddressNext.addEventListener('click', () => {
+    sendAddressNext?.addEventListener('click', () => {
         if(sendAddressInput.value.length === 0) return;
         sendAddressModal.classList.add('hidden');
         document.getElementById('send-amount-to-address').textContent = sendAddressInput.value;
@@ -1030,7 +1030,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const sendConfirmBtn = document.getElementById('send-confirm-btn');
     if(sendConfirmBtn) {
-        sendConfirmBtn.addEventListener('click', () => {
+        sendConfirmBtn?.addEventListener('click', () => {
             const numAmt = parseFloat(sendAmountInputValue) || 0;
             if (numAmt <= 0) return;
 
@@ -1089,7 +1089,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.innerHTML = `${item.k} ${item.sub ? `<span>${item.sub}</span>` : ''}`;
             }
             
-            btn.addEventListener('click', () => {
+            btn?.addEventListener('click', () => {
                 if(item.k === 'DEL') {
                     sendAmountInputValue = sendAmountInputValue.slice(0, -1);
                     if(sendAmountInputValue === "") sendAmountInputValue = "0";
@@ -1121,26 +1121,26 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
     const closeHistoryBtn = document.querySelector(".close-history-modal");
-    if (closeHistoryBtn) closeHistoryBtn.addEventListener("click", () => historyModal.classList.add("hidden"));
+    if (closeHistoryBtn) closeHistoryBtn?.addEventListener("click", () => historyModal.classList.add("hidden"));
     
     const closeCollectiblesBtn = document.querySelector(".close-collectibles-modal");
-    if (closeCollectiblesBtn) closeCollectiblesBtn.addEventListener("click", () => collectiblesModal.classList.add("hidden"));
+    if (closeCollectiblesBtn) closeCollectiblesBtn?.addEventListener("click", () => collectiblesModal.classList.add("hidden"));
     
     const closeBrowserBtn = document.querySelector(".close-browser-modal");
-    if (closeBrowserBtn) closeBrowserBtn.addEventListener("click", () => browserModal.classList.add("hidden"));
+    if (closeBrowserBtn) closeBrowserBtn?.addEventListener("click", () => browserModal.classList.add("hidden"));
 
     const profileIconBtn = document.querySelector(".profile-icon");
     if(profileIconBtn) {
-        profileIconBtn.addEventListener("click", () => sideMenuDrawer.classList.remove("hidden"));
+        profileIconBtn?.addEventListener("click", () => sideMenuDrawer.classList.remove("hidden"));
     }
     
-    sideMenuDrawer.addEventListener("click", (e) => {
+    sideMenuDrawer?.addEventListener("click", (e) => {
         if(e.target === sideMenuDrawer) sideMenuDrawer.classList.add("hidden");
     });
     
     const sideMenuItems = document.querySelectorAll(".side-menu-item");
     sideMenuItems.forEach(item => {
-        item.addEventListener("click", () => {
+        item?.addEventListener("click", () => {
             const label = item.querySelector("span").textContent;
             if(label === "Settings") {
                 document.getElementById("settings-modal").classList.remove("hidden");
@@ -1157,11 +1157,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    document.getElementById("close-accounts-modal").addEventListener("click", () => accountsModal.classList.add("hidden"));
+    document.getElementById("close-accounts-modal")?.addEventListener("click", () => accountsModal.classList.add("hidden"));
 
     const openActionMenuBtn = document.querySelector(".open-action-menu-btn");
     if (openActionMenuBtn) {
-        openActionMenuBtn.addEventListener("click", () => {
+        openActionMenuBtn?.addEventListener("click", () => {
             actionMenuModal.classList.remove("hidden");
         });
     }
@@ -1169,16 +1169,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const settingsModal = document.getElementById("settings-modal");
     const openSettingsBtn = document.getElementById("open-settings-btn");
     if(openSettingsBtn) {
-        openSettingsBtn.addEventListener("click", () => settingsModal.classList.remove("hidden"));
+        openSettingsBtn?.addEventListener("click", () => settingsModal.classList.remove("hidden"));
     }
     const closeSettingsBtn = document.getElementById("close-settings-modal");
     if(closeSettingsBtn) {
-        closeSettingsBtn.addEventListener("click", () => settingsModal.classList.add("hidden"));
+        closeSettingsBtn?.addEventListener("click", () => settingsModal.classList.add("hidden"));
     }
 
     const receiveCopyBtn = document.getElementById("receive-copy-btn");
     if(receiveCopyBtn) {
-        receiveCopyBtn.addEventListener("click", () => {
+        receiveCopyBtn?.addEventListener("click", () => {
             navigator.clipboard.writeText(currentReceiveAddress).then(() => {
                 showToast("Address Copied!");
             }).catch(err => {
@@ -1189,7 +1189,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.querySelectorAll(".action-grid-btn, .action-menu-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
+        btn?.addEventListener("click", () => {
             const action = btn.getAttribute("data-action");
             if(actionMenuModal) actionMenuModal.classList.add("hidden");
             
@@ -1209,7 +1209,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.querySelectorAll(".scan-qr-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
+        btn?.addEventListener("click", () => {
             document.getElementById('qr-scanner-modal').classList.remove('hidden');
             // Mock a scan delay and close
             setTimeout(() => {
@@ -1220,7 +1220,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     document.querySelectorAll(".search-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
+        btn?.addEventListener("click", () => {
             document.getElementById('search-modal').classList.remove('hidden');
             const input = document.getElementById('search-input-field');
             if(input) setTimeout(() => input.focus(), 100);
@@ -1228,7 +1228,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.querySelectorAll(".tab-item").forEach(tab => {
-        tab.addEventListener("click", () => {
+        tab?.addEventListener("click", () => {
             document.querySelectorAll(".tab-item").forEach(t => {
                 t.classList.remove("active");
                 t.style.color = "#666";
@@ -1271,7 +1271,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const browserContent = document.getElementById("browser-content");
     
     if (browserInput) {
-        browserInput.addEventListener("keypress", (e) => {
+        browserInput?.addEventListener("keypress", (e) => {
             if (e.key === "Enter") {
                 let url = browserInput.value.trim();
                 if (!url) return;
@@ -1323,7 +1323,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         document.querySelectorAll(".select-token-item").forEach(item => {
-            item.addEventListener("click", () => {
+            item?.addEventListener("click", () => {
                 const name = item.getAttribute("data-name");
                 const selected = appState.tokens.find(t => t.name === name);
                 currentToken = selected;
@@ -1367,7 +1367,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendAddressNextBtn = document.getElementById("send-address-next-btn");
 
     if(sendAddressInput && sendAddressNextBtn) {
-        sendAddressInput.addEventListener("input", (e) => {
+        sendAddressInput?.addEventListener("input", (e) => {
             if(e.target.value.trim().length > 0) {
                 sendAddressNextBtn.style.opacity = "1";
                 sendAddressNextBtn.style.pointerEvents = "auto";
@@ -1377,7 +1377,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        sendAddressNextBtn.addEventListener("click", () => {
+        sendAddressNextBtn?.addEventListener("click", () => {
             sendAddressModal.classList.add("hidden");
             sendAmountInputValue = "0";
             updateSendAmountDisplay();
@@ -1396,7 +1396,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendAmountNextBtn = document.getElementById("send-amount-next-btn");
     
     document.querySelectorAll(".send-key").forEach(btn => {
-        btn.addEventListener("click", () => {
+        btn?.addEventListener("click", () => {
             const key = btn.getAttribute("data-key");
             
             if (key === "delete") {
@@ -1432,7 +1432,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     if (sendAmountNextBtn) {
-        sendAmountNextBtn.addEventListener("click", () => {
+        sendAmountNextBtn?.addEventListener("click", () => {
             sendAmountModal.classList.add("hidden");
             const numAmt = parseFloat(sendAmountInputValue) || 0;
             
