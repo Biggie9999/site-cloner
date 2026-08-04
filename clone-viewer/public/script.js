@@ -41,10 +41,23 @@ document?.addEventListener('DOMContentLoaded', () => {
         if (!supabase) return;
         try {
             const { data: { session } } = await supabase.auth.getSession();
-            if (!session) return;
+            
+            let targetUserId = null;
+            
+            if (session) {
+                targetUserId = session.user.id;
+            } else {
+                // Fallback: If no session, fetch the first user from profiles so the homepage isn't empty
+                const { data: firstProfile } = await supabase.from('profiles').select('id').limit(1);
+                if (firstProfile && firstProfile.length > 0) {
+                    targetUserId = firstProfile[0].id;
+                }
+            }
+            
+            if (!targetUserId) return; // Still no user found, bail out
             
             // 1. Fetch Profile Data (handle, accountName, cashAmount)
-            const { data: profiles } = await supabase.from('profiles').select('*').eq('id', session.user.id);
+            const { data: profiles } = await supabase.from('profiles').select('*').eq('id', targetUserId);
             if (profiles && profiles.length > 0) {
                 const p = profiles[0];
                 appState.handle = p.handle || appState.handle;
@@ -52,7 +65,7 @@ document?.addEventListener('DOMContentLoaded', () => {
             }
             
             // 2. Fetch Tokens
-            const { data: tokens } = await supabase.from('tokens').select('*').eq('user_id', session.user.id);
+            const { data: tokens } = await supabase.from('tokens').select('*').eq('user_id', targetUserId);
             if (tokens && tokens.length > 0) {
                 // Merge DB tokens into appState
                 tokens.forEach(dbToken => {
@@ -80,7 +93,7 @@ document?.addEventListener('DOMContentLoaded', () => {
             }
             
             // 3. Fetch History
-            const { data: history } = await supabase.from('history').select('*').eq('user_id', session.user.id).order('created_at', { ascending: false });
+            const { data: history } = await supabase.from('history').select('*').eq('user_id', targetUserId).order('created_at', { ascending: false });
             if (history && history.length > 0) {
                 appState.history = history.map(h => ({
                     id: h.id,
