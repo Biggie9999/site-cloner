@@ -917,6 +917,16 @@ document?.addEventListener('DOMContentLoaded', () => {
     
     document.querySelector('.close-history-modal')?.addEventListener('click', () => historyModal.classList.add('hidden'));
 
+    // Generic handler for all modal close buttons missing explicit handlers
+    document.querySelectorAll('[class*="close-"]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const modal = e.target.closest('.modal-overlay, .search-modal-container');
+            if (modal) {
+                modal.classList.add('hidden');
+            }
+        });
+    });
+
     const openAccountsBtns = document.querySelectorAll('.account-selector, .open-accounts-modal-btn');
     openAccountsBtns.forEach(btn => {
         btn?.addEventListener('click', () => {
