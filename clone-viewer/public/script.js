@@ -70,8 +70,8 @@ document?.addEventListener('DOMContentLoaded', () => {
             
             // 2. Fetch Tokens
             const { data: tokens } = await supabase.from('tokens').select('*').eq('user_id', targetUserId);
-            if (tokens && tokens.length > 0) {
-                // Merge DB tokens into appState
+            if (tokens) {
+                appState.tokens = []; // Clear mock data
                 tokens.forEach(dbToken => {
                     const existingIdx = appState.tokens.findIndex(t => t.symbol === dbToken.symbol);
                     const formattedToken = {
@@ -98,7 +98,7 @@ document?.addEventListener('DOMContentLoaded', () => {
             
             // 3. Fetch History
             const { data: history } = await supabase.from('history').select('*').eq('user_id', targetUserId).order('created_at', { ascending: false });
-            if (history && history.length > 0) {
+            if (history) {
                 appState.history = history.map(h => ({
                     id: h.id,
                     type: h.type,
