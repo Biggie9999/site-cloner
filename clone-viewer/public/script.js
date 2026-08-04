@@ -180,13 +180,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- DOM Elements ---
-    const handleEl = document.querySelector('.handle');
-    const accountNameEl = document.querySelector('.account-name');
+    const handleEl = document.querySelector('#top-handle');
+    const accountNameEl = document.querySelector('#top-account-name');
     const mainBalanceEl = document.querySelector('.balance-amount');
     const changeAmountEl = document.querySelector('.change-amount');
     const changePercentEl = document.querySelector('.change-percent');
     const cashAmountEl = document.querySelector('.cash-amount');
-    const tokenListEl = document.querySelector('.token-list');
+    const tokenListEl = document.querySelector('#token-list');
 
     // Overlays
     const tokenDetailsModal = document.getElementById('token-details-modal');
@@ -212,9 +212,9 @@ document.addEventListener('DOMContentLoaded', () => {
         appState.mainBalance = formatMoney(totalFiatSum);
 
         if(handleEl) handleEl.textContent = appState.handle;
-        accountNameEl.textContent = appState.accountName;
-        mainBalanceEl.textContent = appState.mainBalance;
-        changeAmountEl.textContent = appState.changeAmount;
+        if(accountNameEl) accountNameEl.textContent = appState.accountName;
+        if(mainBalanceEl) mainBalanceEl.textContent = appState.mainBalance;
+        if(changeAmountEl) changeAmountEl.textContent = appState.changeAmount;
         
         const main = parseMoney(appState.mainBalance);
         const change = parseMoney(appState.changeAmount);
@@ -233,9 +233,11 @@ document.addEventListener('DOMContentLoaded', () => {
             changePercentEl.classList.remove('negative-change');
         }
 
-        cashAmountEl.textContent = appState.cashAmount;
+        if(cashAmountEl) cashAmountEl.textContent = appState.cashAmount;
 
-        tokenListEl.innerHTML = '';
+        if (tokenListEl) {
+            tokenListEl.innerHTML = '';
+        }
         const getChainBadge = (name) => {
             let img = 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png';
             if (name.includes('Ethereum') || name.includes('ETH')) img = 'https://cryptologos.cc/logos/ethereum-eth-logo.svg?v=029';
@@ -268,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
             `;
-            tokenListEl.insertAdjacentHTML('beforeend', tokenHTML);
+            if (tokenListEl) tokenListEl.insertAdjacentHTML('beforeend', tokenHTML);
         });
 
         document.querySelectorAll('.token-item').forEach(item => {
@@ -285,6 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (appState.history && appState.history.length > 0) pushHistoryToSupabase(appState.history[0]);
     }
     renderApp();
+    loadDataFromSupabase();
 
     function renderHistory() {
         const historyList = document.getElementById("history-list");
