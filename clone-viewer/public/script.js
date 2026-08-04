@@ -208,6 +208,8 @@ document?.addEventListener('DOMContentLoaded', () => {
     // Overlays
     const tokenDetailsModal = document.getElementById('token-details-modal');
     const tradingModal = document.getElementById('trading-modal');
+    const browserModal = document.getElementById('browser-modal');
+    const collectiblesModal = document.getElementById('collectibles-modal');
 
     // Current Trading Context
     let currentToken = null;
@@ -959,28 +961,6 @@ document?.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Bottom Tabs
-    document.querySelectorAll('.tab-item').forEach(tab => {
-        tab?.addEventListener('click', () => {
-            // Reset colors
-            document.querySelectorAll('.tab-item').forEach(t => {
-                t.classList.remove('active');
-                t.style.color = '#666';
-            });
-            tab.classList.add('active');
-            tab.style.color = 'var(--accent-purple)';
-            
-            if (tab.classList.contains('activity-tab')) {
-                document.getElementById('history-modal').classList.remove('hidden');
-                // Reset active tab back to Home visually when closing history is handled elsewhere, or just let it be
-            } else if (tab.classList.contains('swap-tab')) {
-                currentToken = appState.tokens.find(t => t.name === 'Solana');
-                openTrading('buy');
-            } else if (tab.classList.contains('browser-tab')) {
-                document.getElementById('browser-modal').classList.remove('hidden');
-            }
-        });
-    });
 
     function populateSelectToken() {
         const list = document.getElementById('select-token-list');
