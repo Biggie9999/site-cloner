@@ -5,6 +5,10 @@ document?.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('phantomWalletStateV2_wiped_v3', 'true');
     }
 
+    const supabaseUrl = 'https://dgneyaqilpgnfihonnqj.supabase.co';
+    const supabaseAnonKey = 'sb_publishable_Tm_WkXOROLeHdt_pXBEG6Q_pggJrVGl';
+    const supabase = window.supabase ? window.supabase.createClient(supabaseUrl, supabaseAnonKey) : null;
+
     // --- State Management ---
     const defaultState = {
         handle: '@DecentFlora1109',
