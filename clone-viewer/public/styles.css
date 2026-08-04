@@ -593,6 +593,7 @@ button {
 /* Toast Notification */
 .toast {
     position: fixed;
+    pointer-events: none;
     top: -100px;
     left: 50%;
     transform: translateX(-50%);
