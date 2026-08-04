@@ -267,7 +267,7 @@ document?.addEventListener('DOMContentLoaded', () => {
         appState.tokens.forEach((token, index) => {
             const isNegative = token.fiatChange && token.fiatChange.startsWith('-');
             const changeColor = isNegative ? '#FF5C5C' : '#4ADE80';
-            const changeText = isNegative ? token.fiatChange : (token.fiatChange === '$0.00' ? '+$0.00' : `+${token.fiatChange}`);
+            const changeText = isNegative ? token.fiatChange : (token.fiatChange.startsWith('+') ? token.fiatChange : `+${token.fiatChange}`);
             
             const tokenHTML = `
                 <div class="token-item" data-name="${token.name}" style="background: #1B1B1B; border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; cursor: pointer;">
