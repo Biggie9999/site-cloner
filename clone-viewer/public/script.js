@@ -307,7 +307,7 @@ document?.addEventListener('DOMContentLoaded', () => {
     loadDataFromSupabase();
 
     function renderHistory() {
-        const historyList = document.getElementById("history-list");
+        const historyList = document.getElementById("history-list-container");
         if (!historyList) return;
         historyList.innerHTML = "";
         
