@@ -506,7 +506,7 @@ document?.addEventListener('DOMContentLoaded', () => {
         updateTradeDisplay();
         
         document.getElementById('trade-logo').src = currentToken.logo;
-        const actionText = 'Swap';
+        const actionText = action === 'buy' ? 'Buy' : 'Sell';
         document.getElementById('trade-action-title').innerHTML = `${actionText} ${currentToken.symbol} <i class="ph-fill ph-seal-check" style="color: var(--accent-purple);"></i>`;
         
         const rcvIcon = document.querySelector('.trade-coin-icon');
