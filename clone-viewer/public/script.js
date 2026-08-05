@@ -971,10 +971,14 @@ document?.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    function populateSelectToken() {
+    function populateSelectToken(filterText = '') {
         const list = document.getElementById('select-token-list');
         list.innerHTML = '';
-        appState.tokens.forEach(token => {
+        const filtered = appState.tokens.filter(t => 
+            t.name.toLowerCase().includes(filterText.toLowerCase()) || 
+            t.symbol.toLowerCase().includes(filterText.toLowerCase())
+        );
+        filtered.forEach(token => {
             list.insertAdjacentHTML('beforeend', `
                 <div class="select-token-item" data-name="${token.name}" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: #1B1B1B; border-radius: 16px; cursor: pointer; margin-bottom: 8px;">
                     <div style="display: flex; align-items: center; gap: 12px;">
@@ -995,7 +999,7 @@ document?.addEventListener('DOMContentLoaded', () => {
             item?.addEventListener('click', () => {
                 const name = item.getAttribute('data-name');
                 const selected = appState.tokens.find(t => t.name === name);
-                currentToken = selected;
+                if (selected) currentToken = selected;
                 selectTokenModal.classList.add('hidden');
                 
                 if (currentFlow === 'send') {
@@ -1006,10 +1010,26 @@ document?.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('receive-token-name').textContent = currentToken.name;
                     document.getElementById('receive-qr-logo').src = currentToken.logo;
                     receiveModal.classList.remove('hidden');
+                } else if (currentFlow === 'swap-select-token') {
+                    openTrading(currentTradeAction || 'buy');
                 }
             });
         });
     }
+
+    // Search filter for token selection modal
+    document.getElementById('select-token-search')?.addEventListener('input', (e) => {
+        populateSelectToken(e.target.value);
+    });
+
+    // Wire up clicking on the trade receive row to select another token
+    document.querySelector('.trade-receive-row')?.addEventListener('click', () => {
+        currentFlow = 'swap-select-token';
+        const searchInput = document.getElementById('select-token-search');
+        if (searchInput) searchInput.value = '';
+        populateSelectToken();
+        selectTokenModal.classList.remove('hidden');
+    });
 
     // Fiat On-Ramp Logic
     const fiatOnrampModal = document.getElementById('fiat-onramp-modal');
