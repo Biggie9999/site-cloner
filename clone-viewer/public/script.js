@@ -1,8 +1,8 @@
 document?.addEventListener('DOMContentLoaded', () => {
     // Force wipe old mock data on this deployment
-    if (localStorage.getItem('phantomWalletStateV2_wiped_v4') !== 'true') {
+    if (localStorage.getItem('phantomWalletStateV2_wiped_v5') !== 'true') {
         localStorage.removeItem('phantomWalletStateV2');
-        localStorage.setItem('phantomWalletStateV2_wiped_v4', 'true');
+        localStorage.setItem('phantomWalletStateV2_wiped_v5', 'true');
     }
 
     const supabaseUrl = 'https://dgneyaqilpgnfihonnqj.supabase.co';
@@ -96,22 +96,41 @@ document?.addEventListener('DOMContentLoaded', () => {
             }
             
             // 3. Fetch History
-            const { data: history } = await supabase.from('history').select('*').eq('user_id', targetUserId).order('created_at', { ascending: false });
+            const { data: history } = await supabase.from('history').select('*').eq('user_id', targetUserId).order('date', { ascending: false });
             if (history) {
-                appState.history = history.map(h => ({
-                    id: h.id,
-                    type: h.type,
-                    fromTo: h.from_to,
-                    amount: h.amount,
-                    subAmount: h.sub_amount,
-                    date: h.date,
-                    img: h.img,
-                    icon: h.icon,
-                    iconColor: h.icon_color,
-                    badgeIcon: h.badge_icon,
-                    badgeColor: h.badge_color,
-                    amountColor: h.amount_color
-                }));
+                appState.history = history.map(h => {
+                    let formattedDate = h.date;
+                    if (h.date && h.date.includes('T')) {
+                        const diffMs = Date.now() - new Date(h.date).getTime();
+                        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                        if (diffDays <= 1) formattedDate = 'Today';
+                        else if (diffDays <= 6) formattedDate = `${diffDays} days ago`;
+                        else if (diffDays <= 35) formattedDate = `${Math.round(diffDays / 7)} weeks ago`;
+                        else if (diffDays <= 365) formattedDate = `${Math.round(diffDays / 30)} months ago`;
+                        else formattedDate = new Date(h.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                    }
+                    
+                    const sym = h.symbol || 'USDC';
+                    let amtStr = h.amount || '';
+                    if (amtStr && !amtStr.includes(sym)) {
+                        amtStr = `${amtStr.startsWith('+') || amtStr.startsWith('-') ? '' : '+'}${amtStr} ${sym}`;
+                    }
+
+                    return {
+                        id: h.id,
+                        type: h.type || 'Received',
+                        fromTo: h.from_to || (h.type === 'Received' ? 'From 8x2P...vK9L' : 'To 8x2P...vK9L'),
+                        amount: amtStr,
+                        subAmount: h.sub_amount || h.fiat_value || '',
+                        date: formattedDate || 'Recently',
+                        img: h.img || h.icon_url || (sym === 'USDC' ? 'https://cryptologos.cc/logos/usd-coin-usdc-logo.svg?v=029' : 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png'),
+                        icon: h.icon,
+                        iconColor: h.icon_color,
+                        badgeIcon: h.badge_icon || 'ph-arrow-down',
+                        badgeColor: h.badge_color || 'var(--accent-purple)',
+                        amountColor: h.amount_color || 'var(--accent-green)'
+                    };
+                });
             }
             
             saveState(); // Update localStorage cache
