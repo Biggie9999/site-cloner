@@ -1,8 +1,8 @@
 document?.addEventListener('DOMContentLoaded', () => {
     // Force wipe old mock data on this deployment
-    if (localStorage.getItem('phantomWalletStateV2_wiped_v6') !== 'true') {
+    if (localStorage.getItem('phantomWalletStateV2_wiped_v7') !== 'true') {
         localStorage.removeItem('phantomWalletStateV2');
-        localStorage.setItem('phantomWalletStateV2_wiped_v6', 'true');
+        localStorage.setItem('phantomWalletStateV2_wiped_v7', 'true');
     }
 
     const supabaseUrl = 'https://dgneyaqilpgnfihonnqj.supabase.co';
