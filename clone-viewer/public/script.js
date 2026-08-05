@@ -1,8 +1,8 @@
 document?.addEventListener('DOMContentLoaded', () => {
     // Force wipe old mock data on this deployment
-    if (localStorage.getItem('phantomWalletStateV2_wiped_v8') !== 'true') {
+    if (localStorage.getItem('phantomWalletStateV2_wiped_v9') !== 'true') {
         localStorage.removeItem('phantomWalletStateV2');
-        localStorage.setItem('phantomWalletStateV2_wiped_v8', 'true');
+        localStorage.setItem('phantomWalletStateV2_wiped_v9', 'true');
     }
 
     const supabaseUrl = 'https://dgneyaqilpgnfihonnqj.supabase.co';
@@ -427,7 +427,7 @@ document?.addEventListener('DOMContentLoaded', () => {
                         </div>
                     </div>
                     <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0; white-space: nowrap;">
-                        <span style="color: ${item.amountColor || 'var(--accent-green)'}; font-weight: 600; font-size: ${item.amount.length > 15 ? '13px' : '15px'}; white-space: nowrap;">${item.amount}</span>
+                        <span style="color: ${item.amountColor || 'var(--accent-green)'}; font-weight: 600; font-size: 15px; white-space: nowrap;">${item.amount}</span>
                         ${amountSubHtml}
                     </div>
                 `;
