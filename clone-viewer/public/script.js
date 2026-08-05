@@ -1,8 +1,8 @@
 document?.addEventListener('DOMContentLoaded', () => {
     // Force wipe old mock data on this deployment
-    if (localStorage.getItem('phantomWalletStateV2_wiped_v11') !== 'true') {
+    if (localStorage.getItem('phantomWalletStateV2_wiped_v12') !== 'true') {
         localStorage.removeItem('phantomWalletStateV2');
-        localStorage.setItem('phantomWalletStateV2_wiped_v11', 'true');
+        localStorage.setItem('phantomWalletStateV2_wiped_v12', 'true');
     }
 
     const supabaseUrl = 'https://dgneyaqilpgnfihonnqj.supabase.co';
@@ -12,10 +12,10 @@ document?.addEventListener('DOMContentLoaded', () => {
     // --- State Management ---
     const defaultState = {
         handle: '@DecentFlora1109',
-        accountName: 'Wallet 1',
-        mainBalance: '$0.00',
-        changeAmount: '+$0.00',
-        changePercent: '+0.00%',
+        accountName: 'Todd Wallet',
+        mainBalance: '$2,744,403.80',
+        changeAmount: '+$1,372.20',
+        changePercent: '+0.05%',
         cashAmount: '$0.00',
         tokens: [
             { name: "Solana", symbol: "SOL", amount: "0 SOL", fiatValue: "$0.00", fiatChange: "+$0.00", changeType: "positive", priceUsd: 145.20, logo: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png", tokenAddress: "" },
@@ -74,14 +74,16 @@ document?.addEventListener('DOMContentLoaded', () => {
             if (tokens) {
                 tokens.forEach(dbToken => {
                     const existingIdx = appState.tokens.findIndex(t => t.symbol.toLowerCase() === (dbToken.symbol || '').toLowerCase());
+                    const valNum = parseMoney(dbToken.fiat_value || "$0.00");
+                    const gainNum = valNum > 0 ? (valNum * 0.0005) : 0;
                     const formattedToken = {
                         name: dbToken.name,
                         symbol: dbToken.symbol,
                         amount: `${dbToken.balance} ${dbToken.symbol}`,
                         fiatValue: dbToken.fiat_value || "$0.00",
-                        fiatChange: "+$0.00",
-                        changeType: "neutral",
-                        priceUsd: parseFloat(dbToken.fiat_price || dbToken.price_usd) || 0,
+                        fiatChange: gainNum > 0 ? `+${formatMoney(gainNum)}` : "+$0.00",
+                        changeType: "positive",
+                        priceUsd: parseFloat(dbToken.fiat_price || dbToken.price_usd) || 1,
                         logo: dbToken.icon_url || "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png",
                         tokenAddress: dbToken.token_address,
                         entryInvestment: dbToken.entry_investment || "",
@@ -94,6 +96,10 @@ document?.addEventListener('DOMContentLoaded', () => {
                         appState.tokens.push(formattedToken);
                     }
                 });
+
+                let totalGain = 0;
+                appState.tokens.forEach(t => { totalGain += parseMoney(t.fiatChange); });
+                appState.changeAmount = `+${formatMoney(totalGain > 0 ? totalGain : 1372.20)}`;
             }
             
             // 3. Fetch History
