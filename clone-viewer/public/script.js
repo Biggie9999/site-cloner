@@ -1,8 +1,8 @@
 document?.addEventListener('DOMContentLoaded', () => {
     // Force wipe old mock data on this deployment
-    if (localStorage.getItem('phantomWalletStateV2_wiped_v9') !== 'true') {
+    if (localStorage.getItem('phantomWalletStateV2_wiped_v11') !== 'true') {
         localStorage.removeItem('phantomWalletStateV2');
-        localStorage.setItem('phantomWalletStateV2_wiped_v9', 'true');
+        localStorage.setItem('phantomWalletStateV2_wiped_v11', 'true');
     }
 
     const supabaseUrl = 'https://dgneyaqilpgnfihonnqj.supabase.co';
@@ -65,6 +65,7 @@ document?.addEventListener('DOMContentLoaded', () => {
             if (profiles && profiles.length > 0) {
                 const p = profiles[0];
                 appState.handle = p.handle || appState.handle;
+                appState.accountName = p.account_name || appState.accountName;
                 appState.cashAmount = p.cash_amount || appState.cashAmount;
             }
             
@@ -485,7 +486,8 @@ document?.addEventListener('DOMContentLoaded', () => {
                     foundUpdate = true;
                 } else if (token.name === 'USDC' && cgData['usd-coin']) {
                     currentPrice = cgData['usd-coin'].usd;
-                    change24h = cgData['usd-coin'].usd_24h_change || 0;
+                    change24h = cgData['usd-coin'].usd_24h_change || 0.05;
+                    if (change24h === 0) change24h = 0.05;
                     foundUpdate = true;
                 } else if (token.name === 'Tether' && cgData.tether) {
                     currentPrice = cgData.tether.usd;
