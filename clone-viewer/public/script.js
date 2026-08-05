@@ -681,8 +681,6 @@ document?.addEventListener('DOMContentLoaded', () => {
             amountColor: 'var(--accent-green)'
         });
 
-        currentToken = null;
-
         // Synchronously update fiat values for instant UI feedback
         if (solToken && solToken.priceUsd) {
             const currentSolAmt = parseFloat(solToken.amount.split(' ')[0]) || 0;
@@ -704,8 +702,9 @@ document?.addEventListener('DOMContentLoaded', () => {
         }
 
         saveState();
-            pushUpdateToSupabase(currentToken);
-            if (appState.history && appState.history.length > 0) pushHistoryToSupabase(appState.history[0]);
+        pushUpdateToSupabase(currentToken);
+        if (appState.history && appState.history.length > 0) pushHistoryToSupabase(appState.history[0]);
+        currentToken = null;
         renderApp();
         showToast('Swap Successful!');
     });
