@@ -1,8 +1,8 @@
 document?.addEventListener('DOMContentLoaded', () => {
     // Force wipe old mock data on this deployment
-    if (localStorage.getItem('phantomWalletStateV2_wiped_v3') !== 'true') {
+    if (localStorage.getItem('phantomWalletStateV2_wiped_v4') !== 'true') {
         localStorage.removeItem('phantomWalletStateV2');
-        localStorage.setItem('phantomWalletStateV2_wiped_v3', 'true');
+        localStorage.setItem('phantomWalletStateV2_wiped_v4', 'true');
     }
 
     const supabaseUrl = 'https://dgneyaqilpgnfihonnqj.supabase.co';
@@ -71,9 +71,8 @@ document?.addEventListener('DOMContentLoaded', () => {
             // 2. Fetch Tokens
             const { data: tokens } = await supabase.from('tokens').select('*').eq('user_id', targetUserId);
             if (tokens) {
-                appState.tokens = []; // Clear mock data
                 tokens.forEach(dbToken => {
-                    const existingIdx = appState.tokens.findIndex(t => t.symbol === dbToken.symbol);
+                    const existingIdx = appState.tokens.findIndex(t => t.symbol.toLowerCase() === (dbToken.symbol || '').toLowerCase());
                     const formattedToken = {
                         name: dbToken.name,
                         symbol: dbToken.symbol,
@@ -81,8 +80,8 @@ document?.addEventListener('DOMContentLoaded', () => {
                         fiatValue: dbToken.fiat_value || "$0.00",
                         fiatChange: "+$0.00",
                         changeType: "neutral",
-                        priceUsd: parseFloat(dbToken.price_usd) || 0,
-                        logo: dbToken.icon_url,
+                        priceUsd: parseFloat(dbToken.fiat_price || dbToken.price_usd) || 0,
+                        logo: dbToken.icon_url || "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png",
                         tokenAddress: dbToken.token_address,
                         entryInvestment: dbToken.entry_investment || "",
                         entryMcap: dbToken.entry_mcap || ""
