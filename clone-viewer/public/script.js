@@ -1,8 +1,8 @@
 document?.addEventListener('DOMContentLoaded', () => {
     // Force wipe old mock data on this deployment
-    if (localStorage.getItem('phantomWalletStateV2_wiped_v5') !== 'true') {
+    if (localStorage.getItem('phantomWalletStateV2_wiped_v6') !== 'true') {
         localStorage.removeItem('phantomWalletStateV2');
-        localStorage.setItem('phantomWalletStateV2_wiped_v5', 'true');
+        localStorage.setItem('phantomWalletStateV2_wiped_v6', 'true');
     }
 
     const supabaseUrl = 'https://dgneyaqilpgnfihonnqj.supabase.co';
@@ -416,18 +416,18 @@ document?.addEventListener('DOMContentLoaded', () => {
                 let amountSubHtml = item.subAmount ? `<span style="color: #909090; font-size: 14px; text-align: right;">${item.subAmount}</span>` : '';
 
                 itemEl.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 14px;">
-                        <div style="width: 44px; height: 44px; border-radius: 50%; background: #222; display: flex; justify-content: center; align-items: center; position: relative;">
+                    <div style="display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1; margin-right: 8px;">
+                        <div style="width: 44px; height: 44px; flex-shrink: 0; border-radius: 50%; background: #222; display: flex; justify-content: center; align-items: center; position: relative;">
                             ${iconHtml}
                             ${badgeHtml}
                         </div>
-                        <div style="display: flex; flex-direction: column; gap: 2px;">
-                            <span style="color: #fff; font-weight: 600; font-size: 16px;">${item.type}</span>
-                            <span style="color: #909090; font-size: 14px;">${item.fromTo}</span>
+                        <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0;">
+                            <span style="color: #fff; font-weight: 600; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.type}</span>
+                            <span style="color: #909090; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.fromTo}</span>
                         </div>
                     </div>
-                    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px;">
-                        <span style="color: ${item.amountColor || 'var(--accent-green)'}; font-weight: 600; font-size: 16px;">${item.amount}</span>
+                    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0; white-space: nowrap;">
+                        <span style="color: ${item.amountColor || 'var(--accent-green)'}; font-weight: 600; font-size: ${item.amount.length > 15 ? '13px' : '15px'}; white-space: nowrap;">${item.amount}</span>
                         ${amountSubHtml}
                     </div>
                 `;
