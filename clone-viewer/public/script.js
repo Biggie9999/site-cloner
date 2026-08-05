@@ -326,6 +326,49 @@ document?.addEventListener('DOMContentLoaded', () => {
     renderApp();
     loadDataFromSupabase();
 
+    function openTxnDetailModal(item) {
+        const modal = document.getElementById('txn-detail-modal');
+        if (!modal) return;
+
+        document.getElementById('txn-detail-title').textContent = item.type || 'Transaction';
+        document.getElementById('txn-detail-img').src = item.img || 'https://cryptologos.cc/logos/usd-coin-usdc-logo.svg?v=029';
+        
+        const badgeEl = document.getElementById('txn-detail-badge');
+        if (item.badgeIcon) {
+            badgeEl.innerHTML = `<i class="ph-fill ${item.badgeIcon}" style="color: ${item.badgeColor || 'var(--accent-purple)'}; font-size: 14px;"></i>`;
+        } else if (item.badgeImg) {
+            badgeEl.innerHTML = `<img src="${item.badgeImg}" style="width: 14px; height: 14px; border-radius: 50%;" />`;
+        }
+
+        const amtEl = document.getElementById('txn-detail-amount');
+        amtEl.textContent = item.amount;
+        amtEl.style.color = item.amountColor || 'var(--accent-green)';
+
+        document.getElementById('txn-detail-date').textContent = item.fullDate || item.date || 'Aug 4, 2026 at 8:25 pm';
+        document.getElementById('txn-detail-status').textContent = 'Succeeded';
+
+        const fromToLabel = document.getElementById('txn-detail-fromto-label');
+        fromToLabel.textContent = item.type === 'Sent' ? 'To' : 'From';
+
+        const address = item.fromTo ? item.fromTo.replace(/From\s*|To\s*/g, '') : '8x2P...vK9L';
+        document.getElementById('txn-detail-fromto-val').textContent = address;
+        document.getElementById('txn-detail-network').textContent = item.network || 'Solana';
+
+        modal.classList.remove('hidden');
+    }
+
+    document.querySelector('.close-txn-detail-modal')?.addEventListener('click', () => {
+        document.getElementById('txn-detail-modal')?.classList.add('hidden');
+    });
+
+    document.getElementById('copy-txn-fromto')?.addEventListener('click', () => {
+        showToast('Address Copied!');
+    });
+
+    document.getElementById('txn-detail-solscan-btn')?.addEventListener('click', () => {
+        showToast('Opening Solscan...');
+    });
+
     function renderHistory() {
         const historyList = document.getElementById("history-list-container");
         if (!historyList) return;
@@ -336,43 +379,67 @@ document?.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        const groups = {};
         appState.history.forEach(item => {
-            let iconHtml = '';
-            if (item.img) {
-                iconHtml = `<img src="${item.img}" style="width: 24px; height: 24px; border-radius: 50%;" />`;
-            } else if (item.icon) {
-                iconHtml = `<i class="ph-bold ${item.icon}" style="color: ${item.iconColor || '#fff'}; font-size: 20px;"></i>`;
-            }
+            const dateGroup = item.date || 'Recently';
+            if (!groups[dateGroup]) groups[dateGroup] = [];
+            groups[dateGroup].push(item);
+        });
 
-            let badgeHtml = '';
-            if (item.badgeImg) {
-                badgeHtml = `<div style="position: absolute; bottom: -2px; right: -2px; width: 16px; height: 16px; background: #1B1B1B; border-radius: 50%; display: flex; justify-content: center; align-items: center;"><img src="${item.badgeImg}" style="width: 12px; height: 12px; border-radius: 50%;" /></div>`;
-            } else if (item.badgeIcon) {
-                badgeHtml = `<div style="position: absolute; bottom: -2px; right: -2px; width: 16px; height: 16px; background: #1B1B1B; border-radius: 50%; display: flex; justify-content: center; align-items: center;"><i class="ph-fill ${item.badgeIcon}" style="color: ${item.badgeColor || '#fff'}; font-size: 10px;"></i></div>`;
-            }
+        Object.keys(groups).forEach(groupTitle => {
+            const headerEl = document.createElement("div");
+            headerEl.style.cssText = "color: #909090; font-size: 14px; font-weight: 600; margin: 16px 0 10px 4px;";
+            headerEl.textContent = groupTitle;
+            historyList.appendChild(headerEl);
 
-            const itemEl = document.createElement("div");
-            itemEl.style.cssText = "background: #1B1B1B; border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer;";
-            
-            let amountSubHtml = item.subAmount ? `<span style="color: #909090; font-size: 14px;">${item.subAmount}</span>` : '';
+            const groupContainer = document.createElement("div");
+            groupContainer.style.cssText = "display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px;";
 
-            itemEl.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 16px;">
-                    <div style="width: 44px; height: 44px; border-radius: 50%; background: #222; display: flex; justify-content: center; align-items: center; position: relative;">
-                        ${iconHtml}
-                        ${badgeHtml}
+            groups[groupTitle].forEach(item => {
+                let iconHtml = '';
+                if (item.img) {
+                    iconHtml = `<img src="${item.img}" style="width: 26px; height: 26px; border-radius: 50%;" />`;
+                } else if (item.icon) {
+                    iconHtml = `<i class="ph-bold ${item.icon}" style="color: ${item.iconColor || '#fff'}; font-size: 20px;"></i>`;
+                }
+
+                let badgeHtml = '';
+                if (item.badgeImg) {
+                    badgeHtml = `<div style="position: absolute; bottom: -2px; right: -2px; width: 16px; height: 16px; background: #1B1B1B; border-radius: 50%; display: flex; justify-content: center; align-items: center;"><img src="${item.badgeImg}" style="width: 12px; height: 12px; border-radius: 50%;" /></div>`;
+                } else if (item.badgeIcon) {
+                    badgeHtml = `<div style="position: absolute; bottom: -2px; right: -2px; width: 16px; height: 16px; background: #1B1B1B; border-radius: 50%; display: flex; justify-content: center; align-items: center;"><i class="ph-fill ${item.badgeIcon}" style="color: ${item.badgeColor || 'var(--accent-purple)'}; font-size: 10px;"></i></div>`;
+                }
+
+                const itemEl = document.createElement("div");
+                itemEl.style.cssText = "background: #1B1B1B; border-radius: 18px; padding: 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer;";
+                
+                let amountSubHtml = item.subAmount ? `<span style="color: #909090; font-size: 14px; text-align: right;">${item.subAmount}</span>` : '';
+
+                itemEl.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 14px;">
+                        <div style="width: 44px; height: 44px; border-radius: 50%; background: #222; display: flex; justify-content: center; align-items: center; position: relative;">
+                            ${iconHtml}
+                            ${badgeHtml}
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 2px;">
+                            <span style="color: #fff; font-weight: 600; font-size: 16px;">${item.type}</span>
+                            <span style="color: #909090; font-size: 14px;">${item.fromTo}</span>
+                        </div>
                     </div>
-                    <div style="display: flex; flex-direction: column;">
-                        <span style="color: #fff; font-weight: 600; font-size: 16px;">${item.type}</span>
-                        <span style="color: #909090; font-size: 14px;">${item.fromTo}</span>
+                    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px;">
+                        <span style="color: ${item.amountColor || 'var(--accent-green)'}; font-weight: 600; font-size: 16px;">${item.amount}</span>
+                        ${amountSubHtml}
                     </div>
-                </div>
-                <div style="display: flex; flex-direction: column; align-items: flex-end;">
-                    <span style="color: ${item.amountColor || '#fff'}; font-weight: 600; font-size: 16px;">${item.amount}</span>
-                    <span style="color: #909090; font-size: 14px;">${item.date}</span>
-                </div>
-            `;
-            historyList.appendChild(itemEl);
+                `;
+
+                itemEl.addEventListener('click', () => {
+                    openTxnDetailModal(item);
+                });
+
+                groupContainer.appendChild(itemEl);
+            });
+
+            historyList.appendChild(groupContainer);
         });
     }
 
